@@ -271,36 +271,38 @@ function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
   const { highlight, small } = IMPRESSIONEN_BENTO;
   return (
     <section id="impressionen" className="reveal-right w-full scroll-mt-20 overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
-      <div className="mx-auto w-full max-w-6xl px-6 py-16">
+      <div className="mx-auto w-full max-w-6xl px-6 pt-16">
         <div className="reveal-up flex flex-col items-center text-center mb-10">
           <h2 className="text-3xl md:text-4xl" style={{ color: TEXT }}>Lorem Ipsum</h2>
           <p className="mt-2 text-sm" style={{ color: TEXT_SECONDARY }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
         </div>
+      </div>
 
-        {/* Desktop / Tablet: 4 Spalten x 2 Zeilen — Highlight belegt 2x2, die 4 kleinen je 1x1. Alle Kacheln zusammen ergeben ein exaktes Rechteck. */}
-        <div className="hidden md:grid gap-3" style={{ gridTemplateColumns: "repeat(4, 1fr)", gridTemplateRows: "repeat(2, 220px)" }}>
-          <div className="reveal-up" style={{ gridColumn: "1 / 3", gridRow: "1 / 3" }}>
-            <BentoTile {...highlight} />
-          </div>
-          {small.map((img, i) => (
-            <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`} style={{ gridColumn: `${3 + (i % 2)} / ${4 + (i % 2)}`, gridRow: `${Math.floor(i / 2) + 1} / ${Math.floor(i / 2) + 2}` }}>
-              <BentoTile {...img} />
-            </div>
-          ))}
+      {/* Desktop / Tablet: 4 Spalten x 2 Zeilen — Highlight belegt 2x2, die 4 kleinen je 1x1. Volle Section-Breite. */}
+      <div className="hidden md:grid gap-3" style={{ gridTemplateColumns: "repeat(4, 1fr)", gridTemplateRows: "repeat(2, 300px)" }}>
+        <div className="reveal-up" style={{ gridColumn: "1 / 3", gridRow: "1 / 3" }}>
+          <BentoTile {...highlight} />
         </div>
-
-        {/* Mobile: Highlight oben volle Breite, darunter 2x2-Raster mit den kleinen Bildern — zusammen ein Rechteck */}
-        <div className="md:hidden grid gap-3" style={{ gridTemplateColumns: "1fr 1fr", gridTemplateRows: "220px 140px 140px" }}>
-          <div className="reveal-up" style={{ gridColumn: "1 / 3", gridRow: "1 / 2" }}>
-            <BentoTile {...highlight} />
+        {small.map((img, i) => (
+          <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`} style={{ gridColumn: `${3 + (i % 2)} / ${4 + (i % 2)}`, gridRow: `${Math.floor(i / 2) + 1} / ${Math.floor(i / 2) + 2}` }}>
+            <BentoTile {...img} />
           </div>
-          {small.map((img, i) => (
-            <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`} style={{ gridColumn: `${(i % 2) + 1} / ${(i % 2) + 2}`, gridRow: `${Math.floor(i / 2) + 2} / ${Math.floor(i / 2) + 3}` }}>
-              <BentoTile {...img} />
-            </div>
-          ))}
-        </div>
+        ))}
+      </div>
 
+      {/* Mobile: Highlight oben volle Breite, darunter 2x2-Raster mit den kleinen Bildern — volle Section-Breite. */}
+      <div className="md:hidden grid gap-3" style={{ gridTemplateColumns: "1fr 1fr", gridTemplateRows: "260px 170px 170px" }}>
+        <div className="reveal-up" style={{ gridColumn: "1 / 3", gridRow: "1 / 2" }}>
+          <BentoTile {...highlight} />
+        </div>
+        {small.map((img, i) => (
+          <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`} style={{ gridColumn: `${(i % 2) + 1} / ${(i % 2) + 2}`, gridRow: `${Math.floor(i / 2) + 2} / ${Math.floor(i / 2) + 3}` }}>
+            <BentoTile {...img} />
+          </div>
+        ))}
+      </div>
+
+      <div className="mx-auto w-full max-w-6xl px-6 pb-16">
         <div className="mt-8 flex justify-center">
           <PillCTA onClick={openQuiz}>Lorem Ipsum Dolor</PillCTA>
         </div>
