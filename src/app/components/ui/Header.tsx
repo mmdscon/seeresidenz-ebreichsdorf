@@ -54,7 +54,7 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
               width={286}
               height={100}
               priority
-              className="h-10 md:h-12 w-auto"
+              className="h-12 md:h-14 w-auto"
               style={{ filter: scrolled ? "none" : "brightness(0) invert(1)", transition: "filter 0.3s ease" }}
             />
           </a>
@@ -142,7 +142,7 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
         }}
       >
         <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid #E7E6E2" }}>
-          <Image src="/logo.png" alt="Seeresidenz Ebreichsdorf" width={286} height={100} className="h-9 w-auto" />
+          <Image src="/logo.png" alt="Seeresidenz Ebreichsdorf" width={286} height={100} className="h-11 w-auto" />
           <button
             type="button"
             onClick={() => setOpen(false)}
