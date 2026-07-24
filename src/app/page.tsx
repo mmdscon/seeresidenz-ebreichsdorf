@@ -301,6 +301,7 @@ function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
           </div>
         ))}
       </div>
+      <div style={{ height: "12px" }} />
     </section>
   );
 }
@@ -690,21 +691,22 @@ export default function Page() {
         <div className="hidden md:block relative w-full md:aspect-[16/10] lg:aspect-[16/8] overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
           <Image src="/lake-aerial.webp" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
           <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "160px", background: "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 100%)" }} />
+          <div className="absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: "48%", background: "linear-gradient(180deg, transparent 0%, rgba(45,49,52,0.20) 45%, rgba(45,49,52,0.62) 100%)" }} />
 
           <div className="absolute inset-x-0 bottom-0 z-10 pb-10 lg:pb-14">
             <div className="mx-auto w-full max-w-6xl px-6 flex items-end justify-between gap-10">
               <div className="reveal-left flex-1 min-w-0">
                 <div className="flex flex-wrap gap-2.5 mb-4">
                   {["Lorem Ipsum", "Dolor Sit Amet", "Ab XXX.000 €"].map((pill) => (
-                    <span key={pill} style={{ display: "inline-flex", alignItems: "center", padding: "6px 14px", background: "rgba(255,255,255,0.7)", backdropFilter: "blur(10px)", border: `1px solid ${DIVIDER}`, color: TEXT, fontSize: "12px", fontWeight: 700 }}>{pill}</span>
+                    <span key={pill} style={{ display: "inline-flex", alignItems: "center", padding: "6px 14px", background: "rgba(255,255,255,0.85)", backdropFilter: "blur(10px)", border: `1px solid ${DIVIDER}`, color: TEXT, fontSize: "12px", fontWeight: 700 }}>{pill}</span>
                   ))}
                 </div>
                 <h1 className="text-left leading-tight" style={{ fontSize: "clamp(2.2rem, 5vw, 4.6rem)" }}>
-                  <span className="block" style={{ color: TEXT }}>Lorem Ipsum Dolor Sit Amet.</span>
+                  <span className="block" style={{ color: "white" }}>Lorem Ipsum Dolor Sit Amet.</span>
                 </h1>
               </div>
               <div className="reveal-right text-right flex flex-col items-end gap-5 shrink-0" style={{ maxWidth: "320px" }}>
-                <p className="text-sm md:text-base leading-relaxed" style={{ color: TEXT_SECONDARY }}>
+                <p className="text-sm md:text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.88)" }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit — sed do eiusmod tempor incididunt ut labore et dolore magna.
                 </p>
                 <Button onClick={openQuiz} size="lg">Lorem Ipsum</Button>
