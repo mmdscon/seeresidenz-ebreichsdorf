@@ -26,8 +26,7 @@ function ArrowIcon({ className = "" }: { className?: string }) {
 // default styling doesn't fit, e.g. on photo backgrounds).
 function PillCTA({ onClick, children, tone = "solid" }: { onClick: () => void; children: React.ReactNode; tone?: "solid" | "light" }) {
   const solid = tone === "solid";
-  const GOLD = "#C9A227";
-  const GOLD_TEXT = "#2D3134";
+  const GOLD = "#D4AF37";
   return (
     <button
       onClick={onClick}
@@ -37,7 +36,7 @@ function PillCTA({ onClick, children, tone = "solid" }: { onClick: () => void; c
         color: solid ? "white" : PRIMARY,
         border: `1px solid ${solid ? PRIMARY : "white"}`,
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = GOLD; e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = GOLD_TEXT; }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = GOLD; e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = "white"; }}
       onMouseLeave={(e) => { e.currentTarget.style.background = solid ? PRIMARY : "white"; e.currentTarget.style.borderColor = solid ? PRIMARY : "white"; e.currentTarget.style.color = solid ? "white" : PRIMARY; }}
     >
       {children}
@@ -302,8 +301,6 @@ function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
           </div>
         ))}
       </div>
-
-      <div className="mx-auto w-full max-w-6xl px-6 pb-16" />
     </section>
   );
 }

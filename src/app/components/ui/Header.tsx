@@ -78,7 +78,7 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
                 color: "white",
                 border: scrolled ? `1px solid ${PRIMARY}` : "1px solid rgba(255,255,255,0.35)",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "#C9A227"; e.currentTarget.style.borderColor = "#C9A227"; e.currentTarget.style.color = "#2D3134"; e.currentTarget.style.backdropFilter = "none"; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "#D4AF37"; e.currentTarget.style.borderColor = "#D4AF37"; e.currentTarget.style.color = "white"; e.currentTarget.style.backdropFilter = "none"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = scrolled ? PRIMARY : "rgba(255,255,255,0.14)"; e.currentTarget.style.borderColor = scrolled ? PRIMARY : "rgba(255,255,255,0.35)"; e.currentTarget.style.color = "white"; e.currentTarget.style.backdropFilter = scrolled ? "none" : "blur(10px)"; }}
             >
               Lorem Ipsum
@@ -150,7 +150,7 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
         </nav>
         <div className="mt-auto px-6 py-6">
           <button onClick={() => { onQuizOpen?.(); setOpen(false); }}
-            className="group/cta w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold rounded-full transition-colors duration-300 hover:bg-[#C9A227] hover:border-[#C9A227] hover:text-[#2D3134]"
+            className="group/cta w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold rounded-full transition-colors duration-300 hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white"
             style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}` }}
           >
             Lorem Ipsum

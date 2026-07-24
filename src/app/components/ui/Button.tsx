@@ -3,7 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const GOLD = "#C9A227";
+const GOLD = "#D4AF37";
 const GOLD_TEXT = "#2D3134";
 
 const buttonVariants = cva(
@@ -17,18 +17,18 @@ const buttonVariants = cva(
       variant: {
         default: [
           "bg-[#547587] text-white border border-[#547587]",
-          "hover:bg-[#C9A227] hover:border-[#C9A227] hover:text-[#2D3134]",
+          "hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white",
           "focus-visible:ring-[#547587]",
         ].join(" "),
         outline: [
           "bg-transparent text-[#547587] border border-[#547587]",
-          "hover:bg-[#C9A227] hover:border-[#C9A227] hover:text-[#2D3134]",
+          "hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white",
           "focus-visible:ring-[#547587]",
         ].join(" "),
-        ghost: "bg-transparent text-[#547587] border-transparent hover:bg-[#C9A227] hover:text-[#2D3134]",
+        ghost: "bg-transparent text-[#547587] border-transparent hover:bg-[#D4AF37] hover:text-white",
         light: [
           "bg-white text-[#547587] border border-white",
-          "hover:bg-[#C9A227] hover:text-[#2D3134] hover:border-[#C9A227]",
+          "hover:bg-[#D4AF37] hover:text-white hover:border-[#D4AF37]",
           "focus-visible:ring-white",
         ].join(" "),
       },
