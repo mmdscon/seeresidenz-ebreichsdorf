@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import Header from "@/components/ui/Header";
 import Quiz from "@/components/quiz";
+import { IMPRESSION_IMAGES } from "@/lib/images";
 
 const PRIMARY = "#547587";
 const TEXT = "#2D3134";
@@ -120,6 +121,36 @@ function AnimatedNumber({ target, suffix = '', decimals = 0 }: { target: number;
     io.observe(el); return () => io.disconnect();
   }, [target]);
   return <span ref={ref}>{displayed}{suffix}</span>;
+}
+
+function IconCheck() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="shrink-0 mt-[3px]">
+      <path d="M5 12l4 4 10-10" stroke={PRIMARY} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// ── Hero Marquee ──
+function HeroMarquee() {
+  const images = IMPRESSION_IMAGES;
+  return (
+    <section className="w-full" style={{ backgroundColor: SECTION_BG, borderBottom: `1px solid ${DIVIDER}` }}>
+      <div className="mx-auto w-full max-w-6xl px-0" style={{ position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "120px", zIndex: 2, background: `linear-gradient(to right, ${SECTION_BG} 0%, transparent 100%)`, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "120px", zIndex: 2, background: `linear-gradient(to left, ${SECTION_BG} 0%, transparent 100%)`, pointerEvents: "none" }} />
+        <div style={{ display: "flex", gap: "12px", animation: "heroMarquee 32s linear infinite", width: "max-content", padding: "20px 0" }}>
+          {[...images, ...images].map((src, i) => (
+            <div key={i} style={{ width: "220px", height: "148px", flexShrink: 0, overflow: "hidden" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <style>{`@keyframes heroMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}`}</style>
+    </section>
+  );
 }
 
 // ── Overlap Feature: Bild + weiße Text-Card, leicht überlappend ──
@@ -687,6 +718,34 @@ export default function Page() {
         </div>
       </section>
 
+      {/* TRUST BAND */}
+      <section id="vorteile" className="w-full scroll-mt-20" style={{ backgroundColor: SECTION_BG, borderBottom: `1px solid ${DIVIDER}` }}>
+        <div className="reveal-right mx-auto w-full max-w-6xl px-6 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "Lorem Ipsum Dolor", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — sed do eiusmod tempor incididunt." },
+              { title: "Consectetur Adipiscing", text: "Ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud exercitation." },
+              { title: "Sed Do Eiusmod", text: "Ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor." },
+              { title: "Incididunt Ut Labore", text: "In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." },
+            ].map((item, idx) => (
+              <div key={idx} className={`reveal-up reveal-delay-${idx + 1} flex flex-col gap-2`}>
+                <div className="flex items-start gap-3">
+                  <IconCheck />
+                  <p className="font-semibold text-sm leading-snug" style={{ color: TEXT }}>{item.title}</p>
+                </div>
+                <p className="text-xs leading-relaxed pl-7" style={{ color: TEXT_SECONDARY }}>{item.text}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 flex flex-col items-start md:items-center md:justify-center reveal-up reveal-delay-4">
+            <Button onClick={openQuiz}>Lorem Ipsum</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* HERO MARQUEE */}
+      <HeroMarquee />
+
       {/* ÜBER UNS (gespiegelt, oben) */}
       <AboutSectionTop />
 
@@ -694,7 +753,7 @@ export default function Page() {
       <FactsGrid />
 
       {/* OBJEKT DETAIL */}
-      <section id="vorteile" className="mx-auto w-full max-w-6xl px-6 py-16 scroll-mt-20">
+      <section className="mx-auto w-full max-w-6xl px-6 py-16 scroll-mt-20">
         <div className="flex flex-col gap-12">
           {[
             {
