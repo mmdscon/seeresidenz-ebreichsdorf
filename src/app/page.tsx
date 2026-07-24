@@ -26,18 +26,19 @@ function ArrowIcon({ className = "" }: { className?: string }) {
 // default styling doesn't fit, e.g. on photo backgrounds).
 function PillCTA({ onClick, children, tone = "solid" }: { onClick: () => void; children: React.ReactNode; tone?: "solid" | "light" }) {
   const solid = tone === "solid";
+  const GOLD = "#C9A227";
+  const GOLD_TEXT = "#2D3134";
   return (
     <button
       onClick={onClick}
-      className="group/cta inline-flex items-center justify-center gap-2 h-11 px-6 text-sm font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
+      className="group/cta inline-flex items-center justify-center gap-2 h-11 px-6 text-sm font-semibold rounded-full transition-colors duration-300 active:scale-[0.98]"
       style={{
         background: solid ? PRIMARY : "white",
         color: solid ? "white" : PRIMARY,
         border: `1px solid ${solid ? PRIMARY : "white"}`,
-        boxShadow: "0 0 0 rgba(84,117,135,0)",
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 10px 24px rgba(84,117,135,0.28)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 0 0 rgba(84,117,135,0)"; }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = GOLD; e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = GOLD_TEXT; }}
+      onMouseLeave={(e) => { e.currentTarget.style.background = solid ? PRIMARY : "white"; e.currentTarget.style.borderColor = solid ? PRIMARY : "white"; e.currentTarget.style.color = solid ? "white" : PRIMARY; }}
     >
       {children}
       <ArrowIcon className="transition-transform duration-300 group-hover/cta:translate-x-1" />
@@ -245,7 +246,7 @@ function FactsGrid() {
   );
 }
 
-// ── Impressionen: ein großes Highlight-Bild + mehrere kleinere, unterschiedlich groß ──
+// ── Impressionen: ein großes Highlight-Bild + kleinere, die zusammen ein exaktes Rechteck bilden ──
 const IMPRESSIONEN_BENTO = {
   highlight: { src: "/lake-house-sky.webp", alt: "Lorem ipsum dolor sit amet", label: "Lorem Ipsum" },
   small: [
@@ -253,7 +254,6 @@ const IMPRESSIONEN_BENTO = {
     { src: "/lake-coast-villa.webp", alt: "Sed do eiusmod tempor", label: "Consectetur" },
     { src: "/lake-terrace-detail.webp", alt: "Incididunt ut labore", label: "Adipiscing Elit" },
     { src: "/lake-boardwalk.webp", alt: "Et dolore magna aliqua", label: "Sed Do Eiusmod" },
-    { src: "/lake-horizon.webp", alt: "Ut enim ad minim veniam", label: "Tempor Incididunt" },
   ],
 };
 
@@ -277,36 +277,28 @@ function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
           <p className="mt-2 text-sm" style={{ color: TEXT_SECONDARY }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
         </div>
 
-        {/* Desktop / Tablet: großes Highlight-Bild links, 4 kleinere rechts im Grid */}
-        <div className="hidden md:grid grid-cols-3 gap-3" style={{ height: "560px" }}>
-          <div className="reveal-up col-span-2 row-span-2 h-full">
+        {/* Desktop / Tablet: 4 Spalten x 2 Zeilen — Highlight belegt 2x2, die 4 kleinen je 1x1. Alle Kacheln zusammen ergeben ein exaktes Rechteck. */}
+        <div className="hidden md:grid gap-3" style={{ gridTemplateColumns: "repeat(4, 1fr)", gridTemplateRows: "repeat(2, 220px)" }}>
+          <div className="reveal-up" style={{ gridColumn: "1 / 3", gridRow: "1 / 3" }}>
             <BentoTile {...highlight} />
           </div>
-          {small.slice(0, 4).map((img, i) => (
-            <div key={img.src} className={`reveal-up reveal-delay-${i + 1} h-full`}>
+          {small.map((img, i) => (
+            <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`} style={{ gridColumn: `${3 + (i % 2)} / ${4 + (i % 2)}`, gridRow: `${Math.floor(i / 2) + 1} / ${Math.floor(i / 2) + 2}` }}>
               <BentoTile {...img} />
             </div>
           ))}
         </div>
-        <div className="hidden md:block mt-3" style={{ height: "180px" }}>
-          <BentoTile {...small[4]} />
-        </div>
 
-        {/* Mobile: Highlight oben groß, darunter 2-spaltiges Raster */}
-        <div className="md:hidden flex flex-col gap-3">
-          <div className="reveal-up" style={{ height: "260px" }}>
+        {/* Mobile: Highlight oben volle Breite, darunter 2x2-Raster mit den kleinen Bildern — zusammen ein Rechteck */}
+        <div className="md:hidden grid gap-3" style={{ gridTemplateColumns: "1fr 1fr", gridTemplateRows: "220px 140px 140px" }}>
+          <div className="reveal-up" style={{ gridColumn: "1 / 3", gridRow: "1 / 2" }}>
             <BentoTile {...highlight} />
           </div>
-          <div className="grid grid-cols-2 gap-3" style={{ height: "300px" }}>
-            {small.slice(0, 4).map((img, i) => (
-              <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`}>
-                <BentoTile {...img} />
-              </div>
-            ))}
-          </div>
-          <div style={{ height: "150px" }}>
-            <BentoTile {...small[4]} />
-          </div>
+          {small.map((img, i) => (
+            <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`} style={{ gridColumn: `${(i % 2) + 1} / ${(i % 2) + 2}`, gridRow: `${Math.floor(i / 2) + 2} / ${Math.floor(i / 2) + 3}` }}>
+              <BentoTile {...img} />
+            </div>
+          ))}
         </div>
 
         <div className="mt-8 flex justify-center">
@@ -364,8 +356,9 @@ function RouteSection() {
 
   const StationCard = ({ s }: { s: typeof STATIONS[0] }) => (
     <div style={{ backgroundColor: "white", border: `1px solid ${DIVIDER}`, boxShadow: "0 2px 12px rgba(84,117,135,0.10)", overflow: "hidden", width: "220px" }}>
-      <div className="relative w-full" style={{ aspectRatio: "21/9" }}>
-        <Image src={s.image} alt={s.city} fill className="object-cover" sizes="220px" />
+      <div style={{ width: "220px", height: "94px", overflow: "hidden" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={s.image} alt={s.city} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
       </div>
       <div style={{ padding: "10px 14px" }}>
         <p className="font-semibold text-sm" style={{ color: TEXT }}>{s.city}</p>
@@ -757,7 +750,7 @@ export default function Page() {
       <section className="w-full relative overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
         <AccentPattern corner="top-right" size={460} />
         <div className="reveal-left relative z-10 mx-auto w-full max-w-6xl px-6 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4" style={{ border: `1px solid ${DIVIDER}`, overflow: "hidden" }}>
+          <div className="grid grid-cols-2 md:grid-cols-4">
             {[
               { number: 500, unit: " m²", label: "Lorem Ipsum" },
               { number: 104, unit: " m²", label: "Dolor Sit Amet" },
@@ -766,7 +759,7 @@ export default function Page() {
             ].map((stat, i) => (
               <div key={i}
                 className={`reveal-up reveal-delay-${i + 1} flex flex-col items-center justify-center py-10 px-4 text-center`}
-                style={{ backgroundColor: "white", borderRight: i < 3 ? `1px solid ${DIVIDER}` : "none" }}>
+                style={{ borderTop: `1px solid ${DIVIDER}`, borderBottom: `1px solid ${DIVIDER}`, borderRight: i < 3 ? `1px solid ${DIVIDER}` : "none" }}>
                 {(stat as any).isText ? (
                   <>
                     <p className="text-4xl md:text-5xl font-semibold leading-none" style={{ color: PRIMARY }}>2</p>

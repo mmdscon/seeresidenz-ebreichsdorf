@@ -3,11 +3,13 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
+const GOLD = "#C9A227";
+const GOLD_TEXT = "#2D3134";
+
 const buttonVariants = cva(
   `group/btn inline-flex items-center justify-center gap-2 whitespace-nowrap
    text-sm font-semibold rounded-full
-   transition-all duration-300 ease-out
-   hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(84,117,135,0.28)]
+   transition-colors duration-300 ease-out
    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
    disabled:pointer-events-none disabled:opacity-50`,
   {
@@ -15,18 +17,19 @@ const buttonVariants = cva(
       variant: {
         default: [
           "bg-[#547587] text-white border border-[#547587]",
-          "hover:bg-[#65879B]",
+          "hover:bg-[#C9A227] hover:border-[#C9A227] hover:text-[#2D3134]",
           "focus-visible:ring-[#547587]",
         ].join(" "),
         outline: [
           "bg-transparent text-[#547587] border border-[#547587]",
-          "hover:bg-[#C9E3EC]",
+          "hover:bg-[#C9A227] hover:border-[#C9A227] hover:text-[#2D3134]",
           "focus-visible:ring-[#547587]",
         ].join(" "),
-        ghost: "bg-transparent text-[#547587] border-transparent hover:bg-[#C9E3EC]",
+        ghost: "bg-transparent text-[#547587] border-transparent hover:bg-[#C9A227] hover:text-[#2D3134]",
         light: [
           "bg-white text-[#547587] border border-white",
-          "focus-visible:ring-white hover:opacity-90",
+          "hover:bg-[#C9A227] hover:text-[#2D3134] hover:border-[#C9A227]",
+          "focus-visible:ring-white",
         ].join(" "),
       },
       size: {
@@ -89,5 +92,5 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = "Button";
-export { Button, buttonVariants };
+export { Button, buttonVariants, GOLD, GOLD_TEXT };
 export default Button;

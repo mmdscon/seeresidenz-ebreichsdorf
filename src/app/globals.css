@@ -17,7 +17,7 @@
   p, li, td, th, label, input, textarea, select, nav {
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
   }
-  a, span {
+  a {
     font-family: var(--font-body), "DM Sans", system-ui, sans-serif;
   }
   button {

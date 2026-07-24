@@ -71,13 +71,15 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
               ))}
             </nav>
             <button onClick={onQuizOpen}
-              className="group/cta shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(84,117,135,0.30)]"
+              className="group/cta shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-full transition-colors duration-300"
               style={{
                 background: scrolled ? PRIMARY : "rgba(255,255,255,0.14)",
                 backdropFilter: scrolled ? "none" : "blur(10px)",
                 color: "white",
                 border: scrolled ? `1px solid ${PRIMARY}` : "1px solid rgba(255,255,255,0.35)",
               }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "#C9A227"; e.currentTarget.style.borderColor = "#C9A227"; e.currentTarget.style.color = "#2D3134"; e.currentTarget.style.backdropFilter = "none"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = scrolled ? PRIMARY : "rgba(255,255,255,0.14)"; e.currentTarget.style.borderColor = scrolled ? PRIMARY : "rgba(255,255,255,0.35)"; e.currentTarget.style.color = "white"; e.currentTarget.style.backdropFilter = scrolled ? "none" : "blur(10px)"; }}
             >
               Lorem Ipsum
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/cta:translate-x-1">
@@ -148,7 +150,7 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
         </nav>
         <div className="mt-auto px-6 py-6">
           <button onClick={() => { onQuizOpen?.(); setOpen(false); }}
-            className="group/cta w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold rounded-full transition-all duration-300"
+            className="group/cta w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold rounded-full transition-colors duration-300 hover:bg-[#C9A227] hover:border-[#C9A227] hover:text-[#2D3134]"
             style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}` }}
           >
             Lorem Ipsum
