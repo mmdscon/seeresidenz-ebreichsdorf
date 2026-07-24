@@ -598,6 +598,66 @@ function AboutSectionTop() {
     </section>
   );
 }
+// ── Abschluss-Sektion: zentrierter Text, Sonnenaufgang am unteren Sektionsrand ──
+function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
+  return (
+    <section className="w-full relative overflow-hidden" style={{ backgroundColor: "#FBFAF7" }}>
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center" style={{ paddingTop: "120px", paddingBottom: "220px" }}>
+        <h2 className="reveal-up text-3xl md:text-5xl leading-tight mb-5" style={{ color: TEXT }}>
+          Lorem Ipsum Dolor Sit Amet
+        </h2>
+        <p className="reveal-up reveal-delay-1 text-base leading-relaxed mb-8" style={{ color: TEXT_SECONDARY }}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+        <div className="reveal-up reveal-delay-2 flex justify-center">
+          <PillCTA onClick={openQuiz}>Lorem Ipsum</PillCTA>
+        </div>
+      </div>
+
+      {/* Sonnenaufgang: Halbkreis, dessen Mittelpunkt genau auf dem unteren Sektionsrand liegt */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2"
+        style={{
+          bottom: 0,
+          transform: "translate(-50%, 50%)",
+          width: "min(1100px, 160vw)",
+          height: "min(1100px, 160vw)",
+          borderRadius: "50%",
+          background: "radial-gradient(circle at 50% 50%, #F9D65C 0%, #F4C542 22%, #E8B23A 42%, rgba(232,178,58,0.35) 62%, rgba(232,178,58,0) 78%)",
+        }}
+      />
+      {/* feine konzentrische Ringe, passend zum Marken-Horizont-Symbol */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2"
+        style={{
+          bottom: 0,
+          transform: "translate(-50%, 50%)",
+          width: "min(760px, 110vw)",
+          height: "min(760px, 110vw)",
+          borderRadius: "50%",
+          border: "1px solid rgba(232,178,58,0.45)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2"
+        style={{
+          bottom: 0,
+          transform: "translate(-50%, 50%)",
+          width: "min(940px, 135vw)",
+          height: "min(940px, 135vw)",
+          borderRadius: "50%",
+          border: "1px solid rgba(232,178,58,0.25)",
+        }}
+      />
+      {/* Horizontlinie exakt am unteren Sektionsrand */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0" style={{ height: "1px", background: "rgba(45,49,52,0.12)" }} />
+    </section>
+  );
+}
+
 export default function Page() {
   const [quizOpen, setQuizOpen] = React.useState(false);
   const openQuiz = React.useCallback(() => setQuizOpen(true), []);
@@ -841,6 +901,9 @@ export default function Page() {
 
       {/* PERSONAL / FINAL CTA */}
       <PersonalCTASection openQuiz={openQuiz} />
+
+      {/* ABSCHLUSS: zentrierter Text, Sonnenaufgang am unteren Rand */}
+      <ClosingSunriseSection openQuiz={openQuiz} />
     </main>
   );
 }
