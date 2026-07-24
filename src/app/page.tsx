@@ -378,7 +378,7 @@ function RouteSection() {
             </div>
             <div className="absolute top-0 left-1/2" style={{ width: "2px", height: `${carY}%`, background: PRIMARY, transform: "translateX(-50%)" }} />
             <div className="absolute z-20" style={{ top: `${carY}%`, left: "50%", transform: "translate(-50%, -50%)" }}>
-              <Image src="/car-icon.png" alt="Auto" width={398} height={828} className="object-contain" style={{ width: "clamp(190px, 52vw, 260px)", height: "auto" }} />
+              <Image src="/car-icon.png" alt="Auto" width={398} height={828} className="object-contain" style={{ width: "clamp(230px, 62vw, 320px)", height: "auto" }} />
             </div>
             {STATIONS.map((s) => {
               const visible = progress * 100 >= s.pos - 4;
