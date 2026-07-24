@@ -378,7 +378,7 @@ function RouteSection() {
             </div>
             <div className="absolute top-0 left-1/2" style={{ width: "2px", height: `${carY}%`, background: PRIMARY, transform: "translateX(-50%)" }} />
             <div className="absolute z-20" style={{ top: `${carY}%`, left: "50%", transform: "translate(-50%, -50%)" }}>
-              <Image src="/car-icon.png" alt="Auto" width={255} height={507} className="object-contain" style={{ width: "clamp(190px, 52vw, 260px)", height: "auto" }} />
+              <Image src="/car-icon.png" alt="Auto" width={398} height={828} className="object-contain" style={{ width: "clamp(190px, 52vw, 260px)", height: "auto" }} />
             </div>
             {STATIONS.map((s) => {
               const visible = progress * 100 >= s.pos - 4;
@@ -407,7 +407,7 @@ function RouteSection() {
             <div className="absolute top-0 left-0 right-0" style={{ height: `${carY}%`, background: PRIMARY }} />
           </div>
           <div className="absolute z-20" style={{ top: `${carY}%`, left: "50%", transform: "translate(-50%, -50%)" }}>
-            <Image src="/car-icon.png" alt="Auto" width={205} height={407} className="object-contain" style={{ width: "clamp(55px, 4.5vw, 85px)", height: "auto" }} />
+            <Image src="/car-icon.png" alt="Auto" width={398} height={828} className="object-contain" style={{ width: "clamp(55px, 4.5vw, 85px)", height: "auto" }} />
           </div>
           {STATIONS.map((s, i) => {
             const visible = progress * 100 >= s.pos - 4;
@@ -664,7 +664,7 @@ export default function Page() {
         <div className="md:hidden">
           <div className="relative w-full aspect-video overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
             <Image src="/lake-aerial.webp" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
-            <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "90px", background: "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 100%)" }} />
+            <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "110px", background: "linear-gradient(180deg, rgba(45,49,52,0.55) 0%, rgba(45,49,52,0) 100%)" }} />
           </div>
           <div className="relative w-full px-5 py-8" style={{ backgroundColor: "#FBFAF7" }}>
             <div className="reveal-left">
@@ -689,7 +689,7 @@ export default function Page() {
         {/* Desktop layout */}
         <div className="hidden md:block relative w-full md:aspect-[16/10] lg:aspect-[16/8] overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
           <Image src="/lake-aerial.webp" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
-          <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "160px", background: "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 100%)" }} />
+          <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "190px", background: "linear-gradient(180deg, rgba(45,49,52,0.50) 0%, rgba(45,49,52,0) 100%)" }} />
           <div className="absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: "48%", background: "linear-gradient(180deg, transparent 0%, rgba(45,49,52,0.20) 45%, rgba(45,49,52,0.62) 100%)" }} />
 
           <div className="absolute inset-x-0 bottom-0 z-10 pb-10 lg:pb-14">
