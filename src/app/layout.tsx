@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import '@/app/globals.css';
-import { manrope, dmSans } from '@/app/fonts';
+import { marcellus, dmSans } from '@/app/fonts';
 
 import Footer from '@/components/ui/Footer';
 import { ConsentProvider } from '@/app/providers/ConsentProvider';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" className={`${manrope.variable} ${dmSans.variable}`}>
+    <html lang="de" className={`${marcellus.variable} ${dmSans.variable}`}>
       <body>
         <ConsentProvider>
           <CookieBanner />

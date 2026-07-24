@@ -25,7 +25,7 @@ export default function CookieBanner() {
           WebkitBackdropFilter: "blur(20px)",
           border: "1px solid rgba(84,117,135,0.18)",
           boxShadow: "0 8px 40px rgba(84,117,135,0.14)",
-          borderRadius: "16px",
+          borderRadius: "0px",
           padding: "18px 20px",
         }}
       >
@@ -52,7 +52,7 @@ export default function CookieBanner() {
                 color: "#6C757A",
                 background: "transparent",
                 border: "1px solid rgba(84,117,135,0.35)",
-                borderRadius: "10px",
+                borderRadius: "999px",
                 cursor: "pointer",
                 fontFamily: "inherit",
               }}
@@ -67,7 +67,7 @@ export default function CookieBanner() {
                 color: "white",
                 background: ACCENT,
                 border: "1px solid transparent",
-                borderRadius: "10px",
+                borderRadius: "999px",
                 cursor: "pointer",
                 fontFamily: "inherit",
               }}

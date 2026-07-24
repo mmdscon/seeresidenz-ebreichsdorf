@@ -13,6 +13,38 @@ const TEXT_SECONDARY = "#6C757A";
 const SECTION_BG = "#F4F1EB";
 const DIVIDER = "#E7E6E2";
 
+// Small right-pointing arrow used on every CTA-style button.
+function ArrowIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+// Reusable pill CTA (raw button, used where the shared Button component's
+// default styling doesn't fit, e.g. on photo backgrounds).
+function PillCTA({ onClick, children, tone = "solid" }: { onClick: () => void; children: React.ReactNode; tone?: "solid" | "light" }) {
+  const solid = tone === "solid";
+  return (
+    <button
+      onClick={onClick}
+      className="group/cta inline-flex items-center justify-center gap-2 h-11 px-6 text-sm font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]"
+      style={{
+        background: solid ? PRIMARY : "white",
+        color: solid ? "white" : PRIMARY,
+        border: `1px solid ${solid ? PRIMARY : "white"}`,
+        boxShadow: "0 0 0 rgba(84,117,135,0)",
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 10px 24px rgba(84,117,135,0.28)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 0 0 rgba(84,117,135,0)"; }}
+    >
+      {children}
+      <ArrowIcon className="transition-transform duration-300 group-hover/cta:translate-x-1" />
+    </button>
+  );
+}
+
 // Subtle decorative dot-pattern in the primary color — used sparingly (max. 2 sections)
 // to add depth without a loud gradient. Fades out radially so it stays barely visible.
 function AccentPattern({ corner = "top-right", size = 480 }: { corner?: "top-left" | "top-right" | "bottom-left" | "bottom-right"; size?: number }) {
@@ -98,44 +130,6 @@ function IconCheck() {
   );
 }
 
-// ── Polaroid: weißer Rahmen, unten dicker, leichte Schieflage ──
-function Polaroid({ src, alt, rotate = 0, size = 280, aspect = "1/1", fill = false }: { src: string; alt: string; rotate?: number; size?: number; aspect?: string; fill?: boolean }) {
-  if (fill) {
-    return (
-      <div
-        className="bg-white flex flex-col h-full"
-        style={{
-          padding: "14px 14px 44px 14px",
-          boxShadow: "0 14px 34px rgba(45,49,52,0.12)",
-          transform: `rotate(${rotate}deg)`,
-          aspectRatio: aspect,
-          maxWidth: "100%",
-        }}
-      >
-        <div className="relative w-full flex-1 overflow-hidden">
-          <Image src={src} alt={alt} fill className="object-cover" sizes="(min-width: 768px) 40vw, 80vw" />
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div
-      className="bg-white"
-      style={{
-        padding: "14px 14px 44px 14px",
-        boxShadow: "0 14px 34px rgba(45,49,52,0.12)",
-        transform: `rotate(${rotate}deg)`,
-        width: size,
-        maxWidth: "100%",
-      }}
-    >
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: aspect }}>
-        <Image src={src} alt={alt} fill className="object-cover" sizes="(min-width: 768px) 30vw, 60vw" />
-      </div>
-    </div>
-  );
-}
-
 // ── Overlap Feature: Bild + weiße Text-Card, leicht überlappend ──
 function OverlapFeature({ image, alt, media, children, imgSide = "right" }: { image?: string; alt?: string; media?: React.ReactNode; children: React.ReactNode; imgSide?: "left" | "right" }) {
   const renderMedia = () =>
@@ -151,7 +145,7 @@ function OverlapFeature({ image, alt, media, children, imgSide = "right" }: { im
         </div>
         <div
           className={`absolute top-1/2 z-10 bg-white ${imgSide === "right" ? "left-0" : "right-0"}`}
-          style={{ transform: "translateY(-50%)", width: "42%", minWidth: "300px", maxWidth: "460px", padding: "40px 36px", borderRadius: "20px", border: `1px solid ${DIVIDER}`, boxShadow: "0 24px 55px rgba(45,49,52,0.10)" }}
+          style={{ transform: "translateY(-50%)", width: "42%", minWidth: "300px", maxWidth: "460px", padding: "40px 36px", border: `1px solid ${DIVIDER}`, boxShadow: "0 24px 55px rgba(45,49,52,0.10)" }}
         >
           {children}
         </div>
@@ -163,7 +157,7 @@ function OverlapFeature({ image, alt, media, children, imgSide = "right" }: { im
         </div>
         <div
           className="relative z-10 bg-white mx-auto"
-          style={{ width: "90%", marginTop: "-48px", padding: "28px 24px", borderRadius: "20px", border: `1px solid ${DIVIDER}`, boxShadow: "0 20px 45px rgba(45,49,52,0.12)" }}
+          style={{ width: "90%", marginTop: "-48px", padding: "28px 24px", border: `1px solid ${DIVIDER}`, boxShadow: "0 20px 45px rgba(45,49,52,0.12)" }}
         >
           {children}
         </div>
@@ -185,7 +179,7 @@ function QuizModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="relative w-full max-w-lg bg-white shadow-2xl p-8 max-h-[90vh] overflow-y-auto"
-        style={{ border: `1px solid ${DIVIDER}`, borderRadius: "20px" }}>
+        style={{ border: `1px solid ${DIVIDER}` }}>
         <Quiz onClose={onClose} />
       </div>
     </div>
@@ -201,7 +195,7 @@ function HeroMarquee() {
         <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "120px", zIndex: 2, background: `linear-gradient(to left, ${SECTION_BG} 0%, transparent 100%)`, pointerEvents: "none" }} />
         <div style={{ display: "flex", gap: "12px", animation: "heroMarquee 32s linear infinite", width: "max-content", padding: "20px 0" }}>
           {[...images, ...images].map((src, i) => (
-            <div key={i} style={{ width: "220px", height: "148px", flexShrink: 0, overflow: "hidden", borderRadius: "12px" }}>
+            <div key={i} style={{ width: "220px", height: "148px", flexShrink: 0, overflow: "hidden" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
@@ -213,163 +207,36 @@ function HeroMarquee() {
   );
 }
 
-// ── Impressionen Slideshow ──
-const IMPRESSIONEN_GRID = [
-  { src: "/hero.jpg", alt: "Lorem ipsum dolor sit amet", label: "Lorem Ipsum", ratio: 0.75 },
-  { src: "/saison-1.jpg", alt: "Consectetur adipiscing elit", label: "Dolor Sit Amet", ratio: 1.6 },
-  { src: "/sternenhimmel.jpg", alt: "Sed do eiusmod tempor", label: "Consectetur", ratio: 1.0 },
-  { src: "/team-2.jpg", alt: "Incididunt ut labore", label: "Adipiscing Elit", ratio: 1.6 },
-  { src: "/baufortschritt-nachher-1.jpg", alt: "Et dolore magna aliqua", label: "Sed Do Eiusmod", ratio: 0.75 },
-  { src: "/saison-3.jpg", alt: "Ut enim ad minim veniam", label: "Tempor Incididunt", ratio: 1.0 },
+// ── 6er Facts-Grid: Icon + kurzer Fakt, 3 pro Zeile (Desktop), 2 pro Zeile (Mobile) ──
+function FactIcon({ path }: { path: string }) {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={path} />
+    </svg>
+  );
+}
+
+const FACTS = [
+  { icon: "M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6", label: "Lorem Ipsum" },
+  { icon: "M12 2v20M2 12h20", label: "Dolor Sit Amet" },
+  { icon: "M4 19h16M4 15h16M8 11h8M10 7h4", label: "Consectetur" },
+  { icon: "M12 21s-7-4.5-7-11a7 7 0 0114 0c0 6.5-7 11-7 11z", label: "Adipiscing Elit" },
+  { icon: "M3 3v18h18M8 17V9m5 8V5m5 12v-6", label: "Sed Do Eiusmod" },
+  { icon: "M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z", label: "Tempor Incididunt" },
 ];
 
-function ImpressCard({ src, alt, label, aspect }: { src: string; alt: string; label: string; aspect?: string }) {
+function FactsGrid() {
   return (
-    <div className="relative w-full h-full overflow-hidden" style={aspect ? { aspectRatio: aspect, borderRadius: "12px" } : { borderRadius: "12px" }}>
-      <Image src={src} alt={alt} fill className="object-cover" sizes="(min-width: 768px) 33vw, 50vw" />
-      <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(45,49,52,0.55) 0%, transparent 100%)" }} />
-      <span className="absolute bottom-3 inset-x-0 px-2 text-center text-sm font-semibold text-white">{label}</span>
-    </div>
-  );
-}
-
-function JustifiedRow({ images, height }: { images: typeof IMPRESSIONEN_GRID; height: number }) {
-  return (
-    <div className="flex gap-3" style={{ height }}>
-      {images.map((img, i) => (
-        <div key={img.src} className={`reveal-up reveal-delay-${i + 1} h-full`} style={{ flex: `${img.ratio} 1 0%`, minWidth: 0 }}>
-          <ImpressCard {...img} />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
-  const desktopRows = [IMPRESSIONEN_GRID.slice(0, 3), IMPRESSIONEN_GRID.slice(3, 6)];
-  const mobileRows = [IMPRESSIONEN_GRID.slice(0, 2), IMPRESSIONEN_GRID.slice(2, 4), IMPRESSIONEN_GRID.slice(4, 6)];
-  return (
-    <section id="impressionen" className="reveal-right w-full scroll-mt-20 overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
+    <section className="w-full" style={{ backgroundColor: "#FBFAF7", borderBottom: `1px solid ${DIVIDER}` }}>
       <div className="mx-auto w-full max-w-6xl px-6 py-16">
-        <div className="reveal-up flex flex-col items-center text-center mb-10">
-          <h2 className="text-3xl md:text-4xl" style={{ color: TEXT }}>Lorem Ipsum</h2>
-          <p className="mt-2 text-sm normal-case" style={{ color: TEXT_SECONDARY }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-        </div>
-
-        {/* Desktop / Tablet: justified Zeilen, feste Höhe, unterschiedliche Breiten je nach Bildformat */}
-        <div className="hidden md:flex flex-col gap-3">
-          {desktopRows.map((row, ri) => (
-            <JustifiedRow key={ri} images={row} height={260} />
-          ))}
-        </div>
-
-        {/* Mobile: gleiches Prinzip, 2 Bilder pro Zeile, unterschiedliche Breiten */}
-        <div className="flex flex-col gap-3 md:hidden">
-          {mobileRows.map((row, ri) => (
-            <JustifiedRow key={ri} images={row} height={150} />
-          ))}
-        </div>
-
-        <div className="mt-8 flex justify-center">
-          <button onClick={openQuiz}
-            className="inline-flex items-center justify-center h-11 px-6 text-sm font-semibold transition-all duration-300 active:scale-[0.98]"
-            style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}`, borderRadius: "12px" }}>
-            Lorem Ipsum Dolor
-          </button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ── Vorher/Nachher Slider (draggable divider) ──
-function BeforeAfterSlider({ before, after, beforeAlt, afterAlt }: { before: string; after: string; beforeAlt: string; afterAlt: string }) {
-  const [pos, setPos] = React.useState(50);
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const draggingRef = React.useRef(false);
-
-  const updateFromClientX = React.useCallback((clientX: number) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const pct = ((clientX - rect.left) / rect.width) * 100;
-    setPos(Math.min(100, Math.max(0, pct)));
-  }, []);
-
-  React.useEffect(() => {
-    const onMove = (e: MouseEvent | TouchEvent) => {
-      if (!draggingRef.current) return;
-      const clientX = "touches" in e ? e.touches[0]?.clientX : (e as MouseEvent).clientX;
-      if (typeof clientX === "number") updateFromClientX(clientX);
-    };
-    const onUp = () => { draggingRef.current = false; };
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchmove", onMove, { passive: true });
-    window.addEventListener("touchend", onUp);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-      window.removeEventListener("touchmove", onMove);
-      window.removeEventListener("touchend", onUp);
-    };
-  }, [updateFromClientX]);
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative w-full overflow-hidden select-none"
-      style={{ aspectRatio: "4/3", cursor: "ew-resize", touchAction: "none" }}
-      onMouseDown={(e) => { draggingRef.current = true; updateFromClientX(e.clientX); }}
-      onTouchStart={(e) => { draggingRef.current = true; updateFromClientX(e.touches[0].clientX); }}
-    >
-      <Image src={after} alt={afterAlt} fill className="object-cover pointer-events-none" sizes="(min-width: 1024px) 50vw, 100vw" />
-      <div className="absolute inset-0 pointer-events-none" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-        <Image src={before} alt={beforeAlt} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
-      </div>
-      <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: `${pos}%`, width: "2px", background: "white", transform: "translateX(-1px)" }} />
-      <div
-        className="absolute top-1/2 flex items-center justify-center pointer-events-none"
-        style={{ left: `${pos}%`, transform: "translate(-50%, -50%)", width: "42px", height: "42px", background: "white", borderRadius: "50%", boxShadow: "0 2px 10px rgba(45,49,52,0.25)" }}
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M8 7l-5 5 5 5M16 7l5 5-5 5" stroke={TEXT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-      <span className="absolute top-3 left-3 text-[11px] font-semibold px-2.5 py-1 pointer-events-none" style={{ background: "rgba(45,49,52,0.55)", color: "white", borderRadius: "6px" }}>Vorher</span>
-      <span className="absolute top-3 right-3 text-[11px] font-semibold px-2.5 py-1 pointer-events-none" style={{ background: "rgba(45,49,52,0.55)", color: "white", borderRadius: "6px" }}>Nachher</span>
-    </div>
-  );
-}
-
-const BAUFORTSCHRITT_VERGLEICH = [
-  { title: "Lorem Ipsum", before: "/baufortschritt-vorher-1.jpg", after: "/baufortschritt-nachher-1.jpg" },
-  { title: "Dolor Sit Amet", before: "/baufortschritt-vorher-2.jpg", after: "/baufortschritt-nachher-2.jpg" },
-  { title: "Consectetur Elit", before: "/baufortschritt-vorher-3.jpg", after: "/baufortschritt-nachher-3.jpg" },
-];
-
-function BaufortschrittGrid() {
-  return (
-    <section className="w-full" style={{ backgroundColor: "#FBFAF7" }}>
-      <div className="mx-auto w-full max-w-6xl px-6 py-16">
-        <div className="reveal-up text-center mb-10">
-          <h2 className="text-3xl md:text-4xl" style={{ color: TEXT }}>
-            Lorem Ipsum Dolor Sit
-          </h2>
-          <p className="mt-3 text-sm normal-case" style={{ color: TEXT_SECONDARY }}>Ziehen Sie den Regler, um lorem ipsum dolor sit amet zu vergleichen.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {BAUFORTSCHRITT_VERGLEICH.map((item, i) => (
-            <div key={item.title} className={`reveal-up reveal-delay-${i + 1}`}>
-              <div style={{ border: `1px solid ${DIVIDER}`, borderRadius: "20px", overflow: "hidden" }}>
-                <BeforeAfterSlider
-                  before={item.before}
-                  after={item.after}
-                  beforeAlt={`Vorher – ${item.title}`}
-                  afterAlt={`Nachher – ${item.title}`}
-                />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10">
+          {FACTS.map((f, i) => (
+            <div key={f.label} className={`reveal-up reveal-delay-${(i % 4) + 1} flex flex-col items-start gap-3 text-left`}>
+              <div className="flex items-center justify-center" style={{ width: "48px", height: "48px", background: SECTION_BG, border: `1px solid ${DIVIDER}` }}>
+                <FactIcon path={f.icon} />
               </div>
-              <p className="mt-4 text-center font-semibold text-base" style={{ color: TEXT }}>{item.title}</p>
+              <p className="text-sm font-semibold" style={{ color: TEXT }}>{f.label}</p>
+              <p className="text-xs leading-relaxed" style={{ color: TEXT_SECONDARY }}>Lorem ipsum dolor sit amet consectetur adipiscing.</p>
             </div>
           ))}
         </div>
@@ -378,13 +245,85 @@ function BaufortschrittGrid() {
   );
 }
 
+// ── Impressionen: ein großes Highlight-Bild + mehrere kleinere, unterschiedlich groß ──
+const IMPRESSIONEN_BENTO = {
+  highlight: { src: "/lake-house-sky.webp", alt: "Lorem ipsum dolor sit amet", label: "Lorem Ipsum" },
+  small: [
+    { src: "/lake-aerial.webp", alt: "Consectetur adipiscing elit", label: "Dolor Sit Amet" },
+    { src: "/lake-coast-villa.webp", alt: "Sed do eiusmod tempor", label: "Consectetur" },
+    { src: "/lake-terrace-detail.webp", alt: "Incididunt ut labore", label: "Adipiscing Elit" },
+    { src: "/lake-boardwalk.webp", alt: "Et dolore magna aliqua", label: "Sed Do Eiusmod" },
+    { src: "/lake-horizon.webp", alt: "Ut enim ad minim veniam", label: "Tempor Incididunt" },
+  ],
+};
+
+function BentoTile({ src, alt, label }: { src: string; alt: string; label: string }) {
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      <Image src={src} alt={alt} fill className="object-cover" sizes="(min-width: 768px) 33vw, 50vw" />
+      <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(45,49,52,0.55) 0%, transparent 100%)" }} />
+      <span className="absolute bottom-3 inset-x-0 px-2 text-center text-sm font-semibold text-white">{label}</span>
+    </div>
+  );
+}
+
+function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
+  const { highlight, small } = IMPRESSIONEN_BENTO;
+  return (
+    <section id="impressionen" className="reveal-right w-full scroll-mt-20 overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
+      <div className="mx-auto w-full max-w-6xl px-6 py-16">
+        <div className="reveal-up flex flex-col items-center text-center mb-10">
+          <h2 className="text-3xl md:text-4xl" style={{ color: TEXT }}>Lorem Ipsum</h2>
+          <p className="mt-2 text-sm" style={{ color: TEXT_SECONDARY }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+        </div>
+
+        {/* Desktop / Tablet: großes Highlight-Bild links, 4 kleinere rechts im Grid */}
+        <div className="hidden md:grid grid-cols-3 gap-3" style={{ height: "560px" }}>
+          <div className="reveal-up col-span-2 row-span-2 h-full">
+            <BentoTile {...highlight} />
+          </div>
+          {small.slice(0, 4).map((img, i) => (
+            <div key={img.src} className={`reveal-up reveal-delay-${i + 1} h-full`}>
+              <BentoTile {...img} />
+            </div>
+          ))}
+        </div>
+        <div className="hidden md:block mt-3" style={{ height: "180px" }}>
+          <BentoTile {...small[4]} />
+        </div>
+
+        {/* Mobile: Highlight oben groß, darunter 2-spaltiges Raster */}
+        <div className="md:hidden flex flex-col gap-3">
+          <div className="reveal-up" style={{ height: "260px" }}>
+            <BentoTile {...highlight} />
+          </div>
+          <div className="grid grid-cols-2 gap-3" style={{ height: "300px" }}>
+            {small.slice(0, 4).map((img, i) => (
+              <div key={img.src} className={`reveal-up reveal-delay-${i + 1}`}>
+                <BentoTile {...img} />
+              </div>
+            ))}
+          </div>
+          <div style={{ height: "150px" }}>
+            <BentoTile {...small[4]} />
+          </div>
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <PillCTA onClick={openQuiz}>Lorem Ipsum Dolor</PillCTA>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Route ──
 const STATIONS = [
-  { city: "Lorem Ipsum", detail: "Standort der Seeresidenz", dist: "direkt vor Ort", pos: 8 },
-  { city: "Dolor Sit Amet", detail: "Lorem ipsum dolor sit", dist: "ca. 10 min", pos: 28 },
-  { city: "Consectetur", detail: "Adipiscing elit sed do", dist: "ca. 15 min", pos: 48 },
-  { city: "Eiusmod Tempor", detail: "Incididunt ut labore", dist: "ca. 15 min", pos: 70 },
-  { city: "Magna Aliqua", detail: "Ausflugsziel in der Region", dist: "ca. 15 min", pos: 90 },
+  { city: "Lorem Ipsum", detail: "Standort der Seeresidenz", dist: "direkt vor Ort", pos: 8, image: "/lake-terrace-detail.webp" },
+  { city: "Dolor Sit Amet", detail: "Lorem ipsum dolor sit", dist: "ca. 10 min", pos: 28, image: "/lake-boardwalk.webp" },
+  { city: "Consectetur", detail: "Adipiscing elit sed do", dist: "ca. 15 min", pos: 48, image: "/lake-house-sky.webp" },
+  { city: "Eiusmod Tempor", detail: "Incididunt ut labore", dist: "ca. 15 min", pos: 70, image: "/lake-coast-villa.webp" },
+  { city: "Magna Aliqua", detail: "Ausflugsziel in der Region", dist: "ca. 15 min", pos: 90, image: "/lake-villa-portrait.webp" },
 ];
 
 function RouteSection() {
@@ -424,10 +363,15 @@ function RouteSection() {
   const carY = firstPos + progress * (lastPos - firstPos);
 
   const StationCard = ({ s }: { s: typeof STATIONS[0] }) => (
-    <div style={{ padding: "10px 16px", backgroundColor: "white", border: `1px solid ${DIVIDER}`, borderRadius: "12px", boxShadow: "0 2px 12px rgba(84,117,135,0.10)" }}>
-      <p className="font-semibold text-sm" style={{ color: TEXT }}>{s.city}</p>
-      <p className="text-xs normal-case" style={{ color: TEXT_SECONDARY }}>{s.detail}</p>
-      <p className="text-xs font-semibold mt-0.5" style={{ color: PRIMARY }}>{s.dist}</p>
+    <div style={{ backgroundColor: "white", border: `1px solid ${DIVIDER}`, boxShadow: "0 2px 12px rgba(84,117,135,0.10)", overflow: "hidden", width: "220px" }}>
+      <div className="relative w-full" style={{ aspectRatio: "21/9" }}>
+        <Image src={s.image} alt={s.city} fill className="object-cover" sizes="220px" />
+      </div>
+      <div style={{ padding: "10px 14px" }}>
+        <p className="font-semibold text-sm" style={{ color: TEXT }}>{s.city}</p>
+        <p className="text-xs" style={{ color: TEXT_SECONDARY }}>{s.detail}</p>
+        <p className="text-xs font-semibold mt-0.5" style={{ color: PRIMARY }}>{s.dist}</p>
+      </div>
     </div>
   );
 
@@ -438,7 +382,7 @@ function RouteSection() {
           <h2 className="text-3xl md:text-4xl" style={{ color: TEXT }}>Lorem Ipsum Dolor Sit Amet</h2>
         </div>
         {/* Mobile */}
-        <div className="md:hidden relative flex gap-0" style={{ minHeight: "600px" }}>
+        <div className="md:hidden relative flex gap-0" style={{ minHeight: "1080px" }}>
           <div className="relative flex-shrink-0" style={{ width: "40px" }}>
             <div className="absolute inset-0 flex justify-center">
               <div style={{ width: "2px", height: "100%", backgroundImage: `repeating-linear-gradient(to bottom, rgba(84,117,135,0.30) 0px, rgba(84,117,135,0.30) 8px, transparent 8px, transparent 16px)` }} />
@@ -451,7 +395,7 @@ function RouteSection() {
               const visible = progress * 100 >= s.pos - 4;
               return (
                 <div key={s.city} className="absolute left-1/2" style={{ top: `${s.pos}%`, transform: "translate(-50%, -50%)", zIndex: 5 }}>
-                  <div style={{ width: "10px", height: "10px", backgroundColor: visible ? PRIMARY : "rgba(84,117,135,0.25)", borderRadius: "50%", border: "2px solid white", boxShadow: visible ? `0 0 0 3px rgba(84,117,135,0.22)` : "none", transition: "all 0.4s ease" }} />
+                  <div style={{ width: "10px", height: "10px", backgroundColor: visible ? PRIMARY : "rgba(84,117,135,0.25)", border: "2px solid white", boxShadow: visible ? `0 0 0 3px rgba(84,117,135,0.22)` : "none", transition: "all 0.4s ease" }} />
                 </div>
               );
             })}
@@ -468,7 +412,7 @@ function RouteSection() {
           </div>
         </div>
         {/* Desktop */}
-        <div className="hidden md:block relative" style={{ minHeight: "680px" }}>
+        <div className="hidden md:block relative" style={{ minHeight: "760px" }}>
           <div className="absolute top-0 bottom-0" style={{ left: "50%", transform: "translateX(-50%)", width: "2px" }}>
             <div className="absolute inset-0" style={{ backgroundImage: `repeating-linear-gradient(to bottom, rgba(84,117,135,0.30) 0px, rgba(84,117,135,0.30) 8px, transparent 8px, transparent 16px)` }} />
             <div className="absolute top-0 left-0 right-0" style={{ height: `${carY}%`, background: PRIMARY }} />
@@ -481,13 +425,9 @@ function RouteSection() {
             const isRight = i % 2 === 1;
             return (
               <div key={s.city} className="absolute" style={{ top: `${s.pos}%`, left: "50%", opacity: visible ? 1 : 0, transform: "translateY(-50%)", transition: 'opacity 0.5s ease', pointerEvents: 'none' }}>
-                <div style={{ position: "absolute", top: "50%", left: "0", transform: "translate(-50%, -50%)", width: "12px", height: "12px", backgroundColor: visible ? PRIMARY : "rgba(84,117,135,0.25)", borderRadius: "50%", border: "2px solid white", boxShadow: visible ? `0 0 0 3px rgba(84,117,135,0.22)` : "none", transition: "all 0.4s ease", zIndex: 10 }} />
+                <div style={{ position: "absolute", top: "50%", left: "0", transform: "translate(-50%, -50%)", width: "12px", height: "12px", backgroundColor: visible ? PRIMARY : "rgba(84,117,135,0.25)", border: "2px solid white", boxShadow: visible ? `0 0 0 3px rgba(84,117,135,0.22)` : "none", transition: "all 0.4s ease", zIndex: 10 }} />
                 <div className="absolute pointer-events-none" style={{ top: "50%", transform: "translateY(-50%)", whiteSpace: "nowrap", ...(isRight ? { left: "120px", right: "auto", textAlign: "left" } : { right: "120px", left: "auto", textAlign: "right" }) }}>
-                  <div style={{ padding: "12px 20px", backgroundColor: "white", border: `1px solid ${DIVIDER}`, borderRadius: "12px", boxShadow: "0 2px 12px rgba(84,117,135,0.10)", minWidth: "180px" }}>
-                    <p className="font-semibold text-base" style={{ color: TEXT }}>{s.city}</p>
-                    <p className="text-sm normal-case" style={{ color: TEXT_SECONDARY }}>{s.detail}</p>
-                    <p className="text-sm font-semibold mt-1" style={{ color: PRIMARY }}>{s.dist}</p>
-                  </div>
+                  <StationCard s={s} />
                 </div>
               </div>
             );
@@ -500,7 +440,7 @@ function RouteSection() {
 // ── Parallax Section ──
 function ParallaxSection({ openQuiz }: { openQuiz: () => void }) {
   return (
-    <section className="w-full bg-center bg-cover bg-scroll md:bg-fixed" style={{ backgroundImage: "url(/paralax.jpg)" }}>
+    <section className="w-full bg-center bg-cover bg-scroll md:bg-fixed" style={{ backgroundImage: "url(/lake-horizon.webp)" }}>
       <div className="relative">
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(251,250,247,0.20) 0%, rgba(251,250,247,0.55) 100%)" }} />
         <div className="reveal-left relative mx-auto w-full max-w-6xl px-6 py-20 md:py-28 flex justify-center">
@@ -512,21 +452,17 @@ function ParallaxSection({ openQuiz }: { openQuiz: () => void }) {
               backdropFilter: "blur(14px)",
               WebkitBackdropFilter: "blur(14px)",
               border: `1px solid ${DIVIDER}`,
-              borderRadius: "20px",
               padding: "40px 36px",
             }}
           >
             <h2 className="text-3xl md:text-5xl leading-tight" style={{ color: TEXT }}>
               Lorem Ipsum Dolor
             </h2>
-            <p className="mt-4 text-base md:text-lg leading-relaxed normal-case" style={{ color: TEXT_SECONDARY }}>
+            <p className="mt-4 text-base md:text-lg leading-relaxed" style={{ color: TEXT_SECONDARY }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <div className="mt-7 flex justify-center">
-              <button onClick={openQuiz}
-                className="inline-flex items-center justify-center h-12 px-8 text-sm font-semibold transition-all duration-300 active:scale-[0.98]"
-                style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}`, borderRadius: "12px" }}
-              >Lorem Ipsum</button>
+              <PillCTA onClick={openQuiz}>Lorem Ipsum</PillCTA>
             </div>
           </div>
         </div>
@@ -540,19 +476,19 @@ function PersonalCTASection({ openQuiz }: { openQuiz: () => void }) {
   return (
     <section className="section-reveal w-full" style={{ backgroundColor: "#FBFAF7" }}>
       <div className="mx-auto w-full max-w-6xl px-6 py-16">
-        <OverlapFeature image="/final-cta.jpg" alt="Lorem ipsum dolor sit amet" imgSide="right">
+        <OverlapFeature image="/lake-house-portrait.webp" alt="Lorem ipsum dolor sit amet" imgSide="right">
           <h2 className="text-2xl md:text-3xl leading-tight mb-5" style={{ color: TEXT }}>
             Lorem Ipsum Dolor Sit Amet
           </h2>
-          <p className="text-sm leading-relaxed mb-4 normal-case" style={{ color: TEXT_SECONDARY }}>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: TEXT_SECONDARY }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.
           </p>
-          <p className="text-sm leading-relaxed mb-5 normal-case" style={{ color: TEXT_SECONDARY }}>
+          <p className="text-sm leading-relaxed mb-5" style={{ color: TEXT_SECONDARY }}>
             Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat, duis aute irure dolor in reprehenderit.
           </p>
           <div className="mb-5">
             <p className="text-sm font-semibold" style={{ color: TEXT }}>Seeresidenz</p>
-            <p className="text-xs normal-case" style={{ color: TEXT_SECONDARY }}>Musterstraße 1, 10115 Berlin · +49 30 000 000</p>
+            <p className="text-xs" style={{ color: TEXT_SECONDARY }}>Musterstraße 1, 10115 Berlin · +49 30 000 000</p>
           </div>
           <Button onClick={openQuiz}>Lorem Ipsum</Button>
         </OverlapFeature>
@@ -571,9 +507,9 @@ function TimelineSection() {
             { date: "Lorem Ipsum", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.", delay: 1 },
             { date: "Dolor Sit Amet", text: "Ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud exercitation.", delay: 2 },
           ].map((item) => (
-            <div key={item.date} className={`reveal-up reveal-delay-${(item as any).delay}`} style={{ backgroundColor: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: "20px", padding: "32px" }}>
-              <p className="text-2xl md:text-3xl font-semibold mb-3 text-white normal-case">{item.date}</p>
-              <p className="text-base leading-relaxed normal-case" style={{ color: "rgba(255,255,255,0.85)" }}>{item.text}</p>
+            <div key={item.date} className={`reveal-up reveal-delay-${(item as any).delay}`} style={{ backgroundColor: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.22)", padding: "32px" }}>
+              <p className="text-2xl md:text-3xl font-semibold mb-3 text-white">{item.date}</p>
+              <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.85)" }}>{item.text}</p>
             </div>
           ))}
         </div>
@@ -582,222 +518,13 @@ function TimelineSection() {
   );
 }
 
-// ── Video Section: branded custom player ──
-function VideoSection({ openQuiz }: { openQuiz: () => void }) {
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  const [engaged, setEngaged] = React.useState(false);
-  const [playing, setPlaying] = React.useState(false);
-  const [muted, setMuted] = React.useState(true);
-  const [progress, setProgress] = React.useState(0);
-  const [duration, setDuration] = React.useState(0);
-  const [current, setCurrent] = React.useState(0);
-  const [ended, setEnded] = React.useState(false);
-
-  // Start the silent teaser loop as soon as possible.
-  React.useEffect(() => {
-    const v = videoRef.current;
-    if (v) { v.muted = true; v.play().catch(() => {}); }
-  }, []);
-
-  const engage = () => {
-    const v = videoRef.current; if (!v) return;
-    v.currentTime = 0;
-    v.muted = false;
-    setMuted(false);
-    setEngaged(true);
-    setEnded(false);
-    v.play();
-    setPlaying(true);
-  };
-
-  const togglePlay = () => {
-    const v = videoRef.current; if (!v) return;
-    if (!engaged) { engage(); return; }
-    if (ended) { engage(); return; }
-    if (v.paused) { v.play(); setPlaying(true); }
-    else { v.pause(); setPlaying(false); }
-  };
-
-  const toggleMute = () => {
-    const v = videoRef.current; if (!v) return;
-    v.muted = !v.muted; setMuted(v.muted);
-  };
-
-  const onTimeUpdate = () => {
-    const v = videoRef.current; if (!v) return;
-    setCurrent(v.currentTime);
-    if (v.duration) setProgress((v.currentTime / v.duration) * 100);
-  };
-
-  const onEnded = () => {
-    if (!engaged) return; // teaser loop uses native loop, shouldn't fire
-    setPlaying(false);
-    setEnded(true);
-  };
-
-  const onSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const v = videoRef.current; if (!v || !v.duration) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const pct = (e.clientX - rect.left) / rect.width;
-    v.currentTime = pct * v.duration;
-    if (ended) setEnded(false);
-  };
-
-  const fmt = (t: number) => {
-    if (!isFinite(t)) return "0:00";
-    const m = Math.floor(t / 60);
-    const s = Math.floor(t % 60).toString().padStart(2, "0");
-    return `${m}:${s}`;
-  };
-
-  return (
-    <section className="section-reveal w-full" style={{ backgroundColor: "#FBFAF7" }}>
-      <div className="mx-auto w-full max-w-6xl px-6 py-16">
-        <div
-          className="reveal-left relative w-full md:w-[75%] mx-auto overflow-hidden group"
-          style={{ border: `1px solid ${DIVIDER}`, borderRadius: "20px", backgroundColor: "black", aspectRatio: "16/9" }}
-        >
-          <video
-            ref={videoRef}
-            src="/project-video.mp4"
-            muted={muted}
-            autoPlay
-            loop={!engaged}
-            playsInline
-            onTimeUpdate={onTimeUpdate}
-            onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-            onEnded={onEnded}
-            onClick={togglePlay}
-            className="absolute inset-0 w-full h-full object-cover cursor-pointer"
-            style={{ filter: ended ? "blur(14px)" : "none", transform: ended ? "scale(1.06)" : "none", transition: "filter 0.4s ease" }}
-          />
-
-          {/* Enticing play button — shown until the visitor engages with sound */}
-          {!engaged && !ended && (
-            <button
-              type="button"
-              onClick={engage}
-              aria-label="Video mit Ton starten"
-              className="absolute inset-0 flex items-center justify-center transition-opacity duration-200"
-              style={{ background: "rgba(45,49,52,0.20)" }}
-            >
-              <span
-                className="flex items-center justify-center transition-transform duration-200 active:scale-95"
-                style={{ width: "76px", height: "76px", background: PRIMARY, border: `1px solid ${PRIMARY}`, borderRadius: "50%" }}
-              >
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-              </span>
-            </button>
-          )}
-
-          {/* Paused (after engaging) — show a plain play button, no dark overlay teaser text */}
-          {engaged && !playing && !ended && (
-            <button
-              type="button"
-              onClick={togglePlay}
-              aria-label="Video fortsetzen"
-              className="absolute inset-0 flex items-center justify-center transition-opacity duration-200"
-              style={{ background: "rgba(45,49,52,0.20)" }}
-            >
-              <span
-                className="flex items-center justify-center transition-transform duration-200 active:scale-95"
-                style={{ width: "76px", height: "76px", background: PRIMARY, border: `1px solid ${PRIMARY}`, borderRadius: "50%" }}
-              >
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
-              </span>
-            </button>
-          )}
-
-          {/* End-of-video CTA overlay */}
-          {ended && (
-            <div
-              className="absolute inset-0 flex flex-col items-center justify-center gap-4"
-              style={{ background: "rgba(45,49,52,0.45)" }}
-            >
-              <button
-                type="button"
-                onClick={openQuiz}
-                className="inline-flex items-center justify-center h-12 md:h-14 px-8 md:px-10 text-sm md:text-base font-semibold transition-all duration-200 active:scale-[0.98]"
-                style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}`, borderRadius: "12px" }}
-              >
-                Lorem Ipsum
-              </button>
-              <button
-                type="button"
-                onClick={engage}
-                className="text-xs font-medium tracking-wide underline underline-offset-2 transition-opacity hover:opacity-80"
-                style={{ color: "rgba(255,255,255,0.8)" }}
-              >
-                Video erneut ansehen
-              </button>
-            </div>
-          )}
-
-          {/* Branded control bar — only once engaged */}
-          {engaged && (
-            <div
-              className="absolute inset-x-0 bottom-0 flex items-center gap-4 px-4 py-3 md:px-5 md:py-4"
-              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)", opacity: ended ? 0 : 1, transition: "opacity 0.2s ease" }}
-            >
-              <button
-                type="button"
-                onClick={togglePlay}
-                aria-label={playing ? "Pause" : "Abspielen"}
-                className="flex items-center justify-center shrink-0 transition-opacity active:scale-95"
-                style={{ width: "36px", height: "36px", background: PRIMARY, borderRadius: "8px" }}
-              >
-                {playing ? (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="6" y="5" width="4" height="14" /><rect x="14" y="5" width="4" height="14" /></svg>
-                ) : (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
-                )}
-              </button>
-
-              <div
-                onClick={onSeek}
-                className="relative flex-1 cursor-pointer"
-                style={{ height: "6px", background: "rgba(255,255,255,0.25)", borderRadius: "4px" }}
-              >
-                <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: `${progress}%`, background: PRIMARY, borderRadius: "4px", transition: "width 0.1s linear" }} />
-              </div>
-
-              <span className="hidden sm:inline text-xs font-bold tabular-nums shrink-0" style={{ color: "white", letterSpacing: "0.02em" }}>
-                {fmt(current)} / {fmt(duration)}
-              </span>
-
-              <button
-                type="button"
-                onClick={toggleMute}
-                aria-label={muted ? "Ton einschalten" : "Ton ausschalten"}
-                className="flex items-center justify-center shrink-0 transition-opacity active:scale-95"
-                style={{ width: "36px", height: "36px", background: "rgba(255,255,255,0.14)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: "8px" }}
-              >
-                {muted ? (
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M11 5 6 9H2v6h4l5 4V5z" fill="white" stroke="none" />
-                    <path d="M23 9l-6 6M17 9l6 6" />
-                  </svg>
-                ) : (
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M11 5 6 9H2v6h4l5 4V5z" fill="white" stroke="none" />
-                    <path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
-// ── Über uns: 16:9 Foto mit seitlichem Fade und Trust-Text ──
+// ── Über uns (unten): 16:9 Foto mit seitlichem Fade und Trust-Text ──
 function AboutSection() {
   return (
     <section className="w-full" style={{ backgroundColor: TEXT }}>
       <div className="relative w-full overflow-hidden aspect-[4/5] md:aspect-[16/9]">
         <Image
-          src="/team-1.jpg"
+          src="/lake-house-portrait.webp"
           alt="Lorem ipsum dolor sit amet"
           fill
           className="object-cover"
@@ -820,10 +547,10 @@ function AboutSection() {
               <h2 className="text-2xl md:text-4xl leading-tight mb-4 text-white">
                 Lorem Ipsum Dolor Sit
               </h2>
-              <p className="text-sm md:text-base leading-relaxed mb-4 normal-case" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.85)" }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.
               </p>
-              <p className="hidden md:block text-base leading-relaxed mb-6 normal-case" style={{ color: "rgba(255,255,255,0.75)" }}>
+              <p className="hidden md:block text-base leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.75)" }}>
                 Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat — duis aute irure dolor in reprehenderit in voluptate.
               </p>
             </div>
@@ -834,62 +561,48 @@ function AboutSection() {
   );
 }
 
-// ── Polaroid-Collage: überlappende Schnappschüsse aus dem Marquee ──
-const POLAROID_COLLAGE = [
-  { src: "/hero.jpg", alt: "Lorem ipsum dolor sit amet", rotate: -6, y: 6 },
-  { src: "/saison-1.jpg", alt: "Consectetur adipiscing elit", rotate: 4, y: 18 },
-  { src: "/baufortschritt-nachher-1.jpg", alt: "Sed do eiusmod tempor", rotate: -4, y: -6 },
-  { src: "/sternenhimmel.jpg", alt: "Incididunt ut labore", rotate: 5, y: 14 },
-  { src: "/saison-3.jpg", alt: "Et dolore magna aliqua", rotate: -5, y: 0 },
-  { src: "/team-1.jpg", alt: "Ut enim ad minim veniam", rotate: 3, y: -12 },
-];
-
-function PolaroidCollageSection({ openQuiz }: { openQuiz: () => void }) {
+// ── Gespiegelte Variante der Über-uns-Sektion (oben): Fade von rechts, Text rechtsbündig ──
+function AboutSectionTop() {
   return (
-    <section className="w-full overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
-      <div className="mx-auto w-full max-w-6xl px-6 py-16">
-        <div className="reveal-left text-center mb-10">
-          <h2 className="text-3xl md:text-4xl" style={{ color: TEXT }}>Lorem Ipsum</h2>
-          <p className="mt-2 text-sm normal-case" style={{ color: TEXT_SECONDARY }}>Dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
-          <button onClick={openQuiz}
-            className="mt-5 inline-flex items-center justify-center h-11 px-6 text-sm font-semibold transition-all duration-300 active:scale-[0.98]"
-            style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}`, borderRadius: "12px" }}>
-            Lorem Ipsum Dolor
-          </button>
-        </div>
-        {/* Mobile: 2 Zeilen à 3, überlappend, größer */}
-        <div className="flex flex-col items-center md:hidden">
-          {[POLAROID_COLLAGE.slice(0, 3), POLAROID_COLLAGE.slice(3, 6)].map((row, ri) => (
-            <div key={ri} className="flex items-center justify-center" style={{ marginTop: ri === 0 ? 0 : "-36px" }}>
-              {row.map((p, i) => (
-                <div
-                  key={p.src}
-                  className={i === 0 ? "shrink-0" : "shrink-0 -ml-7"}
-                  style={{ transform: `translateY(${p.y * 0.5}px)`, zIndex: ri * 10 + i }}
-                >
-                  <Polaroid src={p.src} alt={p.alt} rotate={p.rotate} size={125} aspect="4/5" />
-                </div>
-              ))}
+    <section className="w-full" style={{ backgroundColor: TEXT }}>
+      <div className="relative w-full overflow-hidden aspect-[4/5] md:aspect-[16/9]">
+        <Image
+          src="/lake-coast-villa.webp"
+          alt="Lorem ipsum dolor sit amet"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+        {/* Mobile: fade from bottom */}
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{ background: "linear-gradient(to top, rgba(45,49,52,0.92) 0%, rgba(45,49,52,0.55) 38%, rgba(45,49,52,0.05) 70%, transparent 100%)" }}
+        />
+        {/* Desktop: fade from right (mirrored) */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{ background: "linear-gradient(to left, rgba(45,49,52,0.90) 0%, rgba(45,49,52,0.65) 32%, rgba(45,49,52,0.10) 58%, transparent 75%)" }}
+        />
+
+        <div className="absolute inset-0 flex items-end md:items-center">
+          <div className="mx-auto w-full max-w-6xl px-6 pb-8 md:pb-0">
+            <div className="reveal-right ml-auto text-left md:text-right" style={{ maxWidth: "480px" }}>
+              <h2 className="text-2xl md:text-4xl leading-tight mb-4 text-white">
+                Lorem Ipsum Dolor Sit
+              </h2>
+              <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.85)" }}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.
+              </p>
+              <p className="hidden md:block text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
+                Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat — duis aute irure dolor in reprehenderit in voluptate.
+              </p>
             </div>
-          ))}
-        </div>
-        {/* Desktop: eine Zeile */}
-        <div className="hidden md:flex items-center justify-center">
-          {POLAROID_COLLAGE.map((p, i) => (
-            <div
-              key={p.src}
-              className={i === 0 ? "shrink-0" : "shrink-0 -ml-10"}
-              style={{ transform: `translateY(${p.y}px)`, zIndex: i }}
-            >
-              <Polaroid src={p.src} alt={p.alt} rotate={p.rotate} size={170} aspect="4/5" />
-            </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
 export default function Page() {
   const [quizOpen, setQuizOpen] = React.useState(false);
   const openQuiz = React.useCallback(() => setQuizOpen(true), []);
@@ -912,7 +625,7 @@ export default function Page() {
         {/* Mobile layout */}
         <div className="md:hidden">
           <div className="relative w-full aspect-video overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
-            <Image src="/hero-desktop.jpg" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
+            <Image src="/lake-aerial.webp" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
             <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "90px", background: "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 100%)" }} />
           </div>
           <div className="relative w-full px-5 py-8" style={{ backgroundColor: "#FBFAF7" }}>
@@ -920,12 +633,12 @@ export default function Page() {
               <h1 className="leading-tight" style={{ fontSize: "clamp(2rem, 8vw, 2.6rem)" }}>
                 <span className="block" style={{ color: TEXT }}>Lorem Ipsum Dolor Sit Amet.</span>
               </h1>
-              <p className="mt-4 text-sm leading-relaxed normal-case" style={{ color: TEXT_SECONDARY }}>
+              <p className="mt-4 text-sm leading-relaxed" style={{ color: TEXT_SECONDARY }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit — sed do eiusmod tempor incididunt ut labore et dolore magna.
               </p>
               <div className="mt-5 flex flex-wrap gap-2.5">
                 {["Lorem Ipsum", "Dolor Sit Amet", "Ab XXX.000 €"].map((pill) => (
-                  <span key={pill} style={{ display: "inline-flex", alignItems: "center", padding: "6px 14px", background: SECTION_BG, border: `1px solid ${DIVIDER}`, color: TEXT, fontSize: "12px", fontWeight: 700, borderRadius: "8px" }}>{pill}</span>
+                  <span key={pill} style={{ display: "inline-flex", alignItems: "center", padding: "6px 14px", background: SECTION_BG, border: `1px solid ${DIVIDER}`, color: TEXT, fontSize: "12px", fontWeight: 700 }}>{pill}</span>
                 ))}
               </div>
               <div className="mt-6">
@@ -937,7 +650,7 @@ export default function Page() {
 
         {/* Desktop layout */}
         <div className="hidden md:block relative w-full md:aspect-[16/10] lg:aspect-[16/8] overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
-          <Image src="/hero-desktop.jpg" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
+          <Image src="/lake-aerial.webp" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
           <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "160px", background: "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 100%)" }} />
           <div className="absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: "55%", background: "linear-gradient(180deg, transparent 0%, rgba(251,250,247,0.15) 40%, rgba(251,250,247,0.72) 100%)" }} />
 
@@ -946,7 +659,7 @@ export default function Page() {
               <div className="reveal-left flex-1 min-w-0">
                 <div className="flex flex-wrap gap-2.5 mb-4">
                   {["Lorem Ipsum", "Dolor Sit Amet", "Ab XXX.000 €"].map((pill) => (
-                    <span key={pill} style={{ display: "inline-flex", alignItems: "center", padding: "6px 14px", background: "rgba(255,255,255,0.7)", backdropFilter: "blur(10px)", border: `1px solid ${DIVIDER}`, color: TEXT, fontSize: "12px", fontWeight: 700, borderRadius: "8px" }}>{pill}</span>
+                    <span key={pill} style={{ display: "inline-flex", alignItems: "center", padding: "6px 14px", background: "rgba(255,255,255,0.7)", backdropFilter: "blur(10px)", border: `1px solid ${DIVIDER}`, color: TEXT, fontSize: "12px", fontWeight: 700 }}>{pill}</span>
                   ))}
                 </div>
                 <h1 className="text-left leading-tight" style={{ fontSize: "clamp(2.2rem, 5vw, 4.6rem)" }}>
@@ -954,7 +667,7 @@ export default function Page() {
                 </h1>
               </div>
               <div className="reveal-right text-right flex flex-col items-end gap-5 shrink-0" style={{ maxWidth: "320px" }}>
-                <p className="text-sm md:text-base leading-relaxed normal-case" style={{ color: TEXT_SECONDARY }}>
+                <p className="text-sm md:text-base leading-relaxed" style={{ color: TEXT_SECONDARY }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit — sed do eiusmod tempor incididunt ut labore et dolore magna.
                 </p>
                 <Button onClick={openQuiz} size="lg">Lorem Ipsum</Button>
@@ -964,11 +677,14 @@ export default function Page() {
         </div>
       </section>
 
-      {/* VIDEO */}
-      <VideoSection openQuiz={openQuiz} />
+      {/* ÜBER UNS (gespiegelt, oben) */}
+      <AboutSectionTop />
 
       {/* HERO MARQUEE */}
       <HeroMarquee />
+
+      {/* FACTS GRID */}
+      <FactsGrid />
 
       {/* TRUST BAND */}
       <section id="vorteile" className="w-full scroll-mt-20" style={{ backgroundColor: SECTION_BG, borderBottom: `1px solid ${DIVIDER}` }}>
@@ -983,9 +699,9 @@ export default function Page() {
               <div key={idx} className={`reveal-up reveal-delay-${idx + 1} flex flex-col gap-2`}>
                 <div className="flex items-start gap-3">
                   <IconCheck />
-                  <p className="font-semibold text-sm leading-snug normal-case" style={{ color: TEXT }}>{item.title}</p>
+                  <p className="font-semibold text-sm leading-snug" style={{ color: TEXT }}>{item.title}</p>
                 </div>
-                <p className="text-xs leading-relaxed pl-7 normal-case" style={{ color: TEXT_SECONDARY }}>{item.text}</p>
+                <p className="text-xs leading-relaxed pl-7" style={{ color: TEXT_SECONDARY }}>{item.text}</p>
               </div>
             ))}
           </div>
@@ -1000,34 +716,34 @@ export default function Page() {
         <div className="flex flex-col gap-12">
           {[
             {
-              src: "/saison-1.jpg",
+              src: "/lake-terrace-detail.webp",
               alt: "Lorem ipsum dolor sit amet",
               title: "Lorem Ipsum Dolor Sit",
               text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               reverse: false,
             },
             {
-              src: "/saison-2.jpg",
+              src: "/lake-boardwalk.webp",
               alt: "Consectetur adipiscing elit",
               title: "Ut Enim Ad Minim",
               text: "Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat — duis aute irure dolor in reprehenderit.",
               reverse: true,
             },
             {
-              src: "/saison-3.jpg",
+              src: "/lake-villa-portrait.webp",
               alt: "Sed do eiusmod tempor",
               title: "Voluptate Velit Esse",
               text: "Cillum dolore eu fugiat nulla pariatur, excepteur sint occaecat cupidatat non proident sunt in culpa qui officia.",
               reverse: false,
             },
           ].map((card, i) => (
-            <div key={card.title} className={`${i % 2 === 0 ? "reveal-left" : "reveal-right"} grid grid-cols-1 md:grid-cols-2 items-stretch`} style={{ border: `1px solid ${DIVIDER}`, borderRadius: "20px", overflow: "hidden" }}>
+            <div key={card.title} className={`${i % 2 === 0 ? "reveal-left" : "reveal-right"} grid grid-cols-1 md:grid-cols-2 items-stretch`} style={{ border: `1px solid ${DIVIDER}`, overflow: "hidden" }}>
               <div className={`relative w-full overflow-hidden ${card.reverse ? "md:order-2" : ""}`} style={{ aspectRatio: "21/9" }}>
                 <Image src={card.src} alt={card.alt} fill className="object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
               </div>
               <div className={`flex flex-col justify-center p-6 md:p-10 ${card.reverse ? "md:order-1" : ""}`}>
-                <h3 className="text-xl md:text-2xl font-semibold mb-3 normal-case" style={{ color: TEXT }}>{card.title}</h3>
-                <p className="text-base leading-relaxed normal-case" style={{ color: TEXT_SECONDARY }}>{card.text}</p>
+                <h3 className="text-xl md:text-2xl font-semibold mb-3" style={{ color: TEXT }}>{card.title}</h3>
+                <p className="text-base leading-relaxed" style={{ color: TEXT_SECONDARY }}>{card.text}</p>
               </div>
             </div>
           ))}
@@ -1041,7 +757,7 @@ export default function Page() {
       <section className="w-full relative overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
         <AccentPattern corner="top-right" size={460} />
         <div className="reveal-left relative z-10 mx-auto w-full max-w-6xl px-6 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4" style={{ border: `1px solid ${DIVIDER}`, borderRadius: "20px", overflow: "hidden" }}>
+          <div className="grid grid-cols-2 md:grid-cols-4" style={{ border: `1px solid ${DIVIDER}`, overflow: "hidden" }}>
             {[
               { number: 500, unit: " m²", label: "Lorem Ipsum" },
               { number: 104, unit: " m²", label: "Dolor Sit Amet" },
@@ -1076,9 +792,6 @@ export default function Page() {
       {/* PARALLAX */}
       <ParallaxSection openQuiz={openQuiz} />
 
-      {/* BAUFORTSCHRITT VORHER/NACHHER */}
-      <BaufortschrittGrid />
-
       {/* ROUTE */}
       <RouteSection />
 
@@ -1100,10 +813,10 @@ export default function Page() {
           <h2 className="text-2xl md:text-3xl leading-tight mb-5" style={{ color: TEXT }}>
             Lorem Ipsum Dolor.
           </h2>
-          <p className="text-sm leading-relaxed mb-4 normal-case" style={{ color: TEXT_SECONDARY }}>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: TEXT_SECONDARY }}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
-          <p className="text-sm leading-relaxed mb-5 normal-case" style={{ color: TEXT_SECONDARY }}>
+          <p className="text-sm leading-relaxed mb-5" style={{ color: TEXT_SECONDARY }}>
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
           <Button onClick={openQuiz}>Lorem Ipsum Dolor</Button>
@@ -1113,11 +826,11 @@ export default function Page() {
       {/* PROJEKTDATEN */}
       <section id="projektdaten" className="w-full scroll-mt-20" style={{ backgroundColor: SECTION_BG }}>
         <div className="mx-auto w-full max-w-6xl px-6 py-16">
-          <OverlapFeature image="/saison-2.jpg" alt="Lorem ipsum dolor sit amet" imgSide="left">
+          <OverlapFeature image="/lake-villa-portrait.webp" alt="Lorem ipsum dolor sit amet" imgSide="left">
             <h2 className="text-2xl md:text-3xl leading-tight mb-5" style={{ color: TEXT }}>
               Lorem Ipsum Dolor Sit.
             </h2>
-            <p className="text-sm leading-relaxed mb-6 normal-case" style={{ color: TEXT_SECONDARY }}>
+            <p className="text-sm leading-relaxed mb-6" style={{ color: TEXT_SECONDARY }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <Button onClick={openQuiz}>Lorem Ipsum Dolor</Button>
@@ -1133,9 +846,6 @@ export default function Page() {
 
       {/* PERSONAL / FINAL CTA */}
       <PersonalCTASection openQuiz={openQuiz} />
-
-      {/* POLAROID COLLAGE */}
-      <PolaroidCollageSection openQuiz={openQuiz} />
     </main>
   );
 }

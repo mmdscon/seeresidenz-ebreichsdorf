@@ -34,7 +34,7 @@ function ModernLoader() {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="inline-block w-3 h-3 rounded-full"
+          className="inline-block w-3 h-3"
           style={{
             backgroundColor: PRIMARY,
             animation: `loaderPulse 1.2s ease-in-out ${i * 0.2}s infinite`,
@@ -62,14 +62,14 @@ function OptionCard({ label, sublabel, letter, onClick, selected, align = 'cente
       style={{
         borderColor: selected ? PRIMARY : 'rgba(45,49,52,0.14)',
         backgroundColor: selected ? `${PRIMARY}0D` : 'white',
-        borderRadius: '14px',
+        borderRadius: '999px',
         textAlign: isLeft ? 'left' : 'center',
         justifyContent: isLeft ? 'flex-start' : 'center',
       }}
     >
       {letter && (
         <span className="shrink-0 w-7 h-7 flex items-center justify-center text-xs font-bold"
-          style={{ backgroundColor: selected ? PRIMARY : '#F4F1EB', color: selected ? 'white' : TEXT_SECONDARY, borderRadius: '8px' }}>
+          style={{ backgroundColor: selected ? PRIMARY : '#F4F1EB', color: selected ? 'white' : TEXT_SECONDARY, borderRadius: '999px' }}>
           {letter}
         </span>
       )}
@@ -94,7 +94,7 @@ function ProgressDots({ step }: { step: Step }) {
   return (
     <div className="flex items-center justify-center gap-2 mb-6">
       {steps.map((s, i) => (
-        <div key={s} className="h-1.5 rounded-full transition-all duration-300"
+        <div key={s} className="h-1.5 transition-all duration-300"
           style={{ width: i === idx ? '24px' : '8px', backgroundColor: i <= idx ? PRIMARY : '#E7E6E2' }} />
       ))}
     </div>
@@ -155,7 +155,7 @@ export default function Quiz({ onClose }: QuizProps) {
   };
 
   const inputClass = "h-12 border px-5 w-full bg-white focus:outline-none focus:ring-2 focus:ring-[#547587]/20 text-sm text-center";
-  const inputStyle = { borderColor: 'rgba(45,49,52,0.16)', color: TEXT, borderRadius: '10px' };
+  const inputStyle = { borderColor: 'rgba(45,49,52,0.16)', color: TEXT, borderRadius: '0px' };
 
   return (
     <div className="relative w-full max-w-lg mx-auto">
@@ -165,7 +165,7 @@ export default function Quiz({ onClose }: QuizProps) {
           onClick={onClose}
           className="absolute top-0 right-0 w-9 h-9 flex items-center justify-center transition-colors hover:bg-gray-100"
           aria-label="Schließen"
-          style={{ color: TEXT_SECONDARY, borderRadius: '10px' }}
+          style={{ color: TEXT_SECONDARY, borderRadius: '999px' }}
         >
           <X size={18} />
         </button>
@@ -190,7 +190,7 @@ export default function Quiz({ onClose }: QuizProps) {
               { n: '4', text: 'Nisi ut aliquip ex ea commodo consequat duis aute irure dolor.' },
             ].map(({ n, text }) => (
               <div key={n} className="flex items-start gap-4">
-                <span className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
+                <span className="shrink-0 w-7 h-7 flex items-center justify-center text-xs font-bold text-white"
                   style={{ backgroundColor: PRIMARY, marginTop: '2px' }}>{n}</span>
                 <p className="text-sm leading-relaxed normal-case" style={{ color: TEXT_SECONDARY }}>{text}</p>
               </div>
@@ -277,7 +277,7 @@ export default function Quiz({ onClose }: QuizProps) {
           <div className="text-center">
             <div className="flex justify-center mb-4">
               <div
-                className="relative overflow-hidden rounded-full flex items-center justify-center"
+                className="relative overflow-hidden flex items-center justify-center"
                 style={{ width: '72px', height: '72px', border: `2px solid ${PRIMARY}`, backgroundColor: '#F4F1EB' }}
               >
                 <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="1.6">
@@ -329,7 +329,7 @@ export default function Quiz({ onClose }: QuizProps) {
           {[...Array(2)].flatMap(() =>
             IMPRESSION_IMAGES
             .map((src, i) => (
-              <div key={`${src}-${i}`} style={{ width: "96px", height: "64px", flexShrink: 0, overflow: "hidden", borderRadius: "8px" }}>
+              <div key={`${src}-${i}`} style={{ width: "96px", height: "64px", flexShrink: 0, overflow: "hidden", borderRadius: "0px" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.78, display: "block" }} />
               </div>

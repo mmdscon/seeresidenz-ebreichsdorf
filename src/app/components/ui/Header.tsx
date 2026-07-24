@@ -71,17 +71,19 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
               ))}
             </nav>
             <button onClick={onQuizOpen}
-              className="shrink-0 inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold transition-all duration-300"
+              className="group/cta shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(84,117,135,0.30)]"
               style={{
                 background: scrolled ? PRIMARY : "rgba(255,255,255,0.14)",
                 backdropFilter: scrolled ? "none" : "blur(10px)",
                 color: "white",
                 border: scrolled ? `1px solid ${PRIMARY}` : "1px solid rgba(255,255,255,0.35)",
-                borderRadius: "12px",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; }}
-            >Lorem Ipsum</button>
+            >
+              Lorem Ipsum
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/cta:translate-x-1">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
           </div>
 
           <button
@@ -146,9 +148,14 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
         </nav>
         <div className="mt-auto px-6 py-6">
           <button onClick={() => { onQuizOpen?.(); setOpen(false); }}
-            className="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-semibold"
-            style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}`, borderRadius: "12px" }}
-          >Lorem Ipsum</button>
+            className="group/cta w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold rounded-full transition-all duration-300"
+            style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}` }}
+          >
+            Lorem Ipsum
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/cta:translate-x-1">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </button>
         </div>
       </div>
     </header>
