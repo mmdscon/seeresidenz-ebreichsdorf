@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import Header from "@/components/ui/Header";
 import Quiz from "@/components/quiz";
-import { IMPRESSION_IMAGES } from "@/lib/images";
 
 const PRIMARY = "#547587";
 const TEXT = "#2D3134";
@@ -123,14 +122,6 @@ function AnimatedNumber({ target, suffix = '', decimals = 0 }: { target: number;
   return <span ref={ref}>{displayed}{suffix}</span>;
 }
 
-function IconCheck() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="shrink-0 mt-[3px]">
-      <path d="M5 12l4 4 10-10" stroke={PRIMARY} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 // ── Overlap Feature: Bild + weiße Text-Card, leicht überlappend ──
 function OverlapFeature({ image, alt, media, children, imgSide = "right" }: { image?: string; alt?: string; media?: React.ReactNode; children: React.ReactNode; imgSide?: "left" | "right" }) {
   const renderMedia = () =>
@@ -184,27 +175,6 @@ function QuizModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }
         <Quiz onClose={onClose} />
       </div>
     </div>
-  );
-}
-// ── Hero Marquee ──
-function HeroMarquee() {
-  const images = IMPRESSION_IMAGES;
-  return (
-    <section className="w-full" style={{ backgroundColor: SECTION_BG, borderBottom: `1px solid ${DIVIDER}` }}>
-      <div className="mx-auto w-full max-w-6xl px-0" style={{ position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "120px", zIndex: 2, background: `linear-gradient(to right, ${SECTION_BG} 0%, transparent 100%)`, pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "120px", zIndex: 2, background: `linear-gradient(to left, ${SECTION_BG} 0%, transparent 100%)`, pointerEvents: "none" }} />
-        <div style={{ display: "flex", gap: "12px", animation: "heroMarquee 32s linear infinite", width: "max-content", padding: "20px 0" }}>
-          {[...images, ...images].map((src, i) => (
-            <div key={i} style={{ width: "220px", height: "148px", flexShrink: 0, overflow: "hidden" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            </div>
-          ))}
-        </div>
-      </div>
-      <style>{`@keyframes heroMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}`}</style>
-    </section>
   );
 }
 
@@ -302,11 +272,7 @@ function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
         ))}
       </div>
 
-      <div className="mx-auto w-full max-w-6xl px-6 pb-16">
-        <div className="mt-8 flex justify-center">
-          <PillCTA onClick={openQuiz}>Lorem Ipsum Dolor</PillCTA>
-        </div>
-      </div>
+      <div className="mx-auto w-full max-w-6xl px-6 pb-16" />
     </section>
   );
 }
@@ -641,31 +607,6 @@ function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
           background: "radial-gradient(ellipse at 50% 50%, rgba(249,214,92,0.16) 0%, rgba(249,214,92,0.08) 40%, rgba(249,214,92,0) 75%)",
         }}
       />
-      {/* feine konzentrische Ringe, weich ausgeblendet */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2"
-        style={{
-          bottom: 0,
-          transform: "translate(-50%, 82%)",
-          width: "min(760px, 110vw)",
-          height: "min(760px, 110vw)",
-          borderRadius: "50%",
-          boxShadow: "0 0 0 1px rgba(232,178,58,0.16), 0 0 40px 6px rgba(232,178,58,0.06)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2"
-        style={{
-          bottom: 0,
-          transform: "translate(-50%, 82%)",
-          width: "min(940px, 135vw)",
-          height: "min(940px, 135vw)",
-          borderRadius: "50%",
-          boxShadow: "0 0 0 1px rgba(232,178,58,0.10), 0 0 60px 10px rgba(232,178,58,0.04)",
-        }}
-      />
       {/* Horizontlinie exakt am unteren Sektionsrand */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0" style={{ height: "1px", background: "rgba(45,49,52,0.12)" }} />
     </section>
@@ -749,39 +690,11 @@ export default function Page() {
       {/* ÜBER UNS (gespiegelt, oben) */}
       <AboutSectionTop />
 
-      {/* HERO MARQUEE */}
-      <HeroMarquee />
-
       {/* FACTS GRID */}
       <FactsGrid />
 
-      {/* TRUST BAND */}
-      <section id="vorteile" className="w-full scroll-mt-20" style={{ backgroundColor: SECTION_BG, borderBottom: `1px solid ${DIVIDER}` }}>
-        <div className="reveal-right mx-auto w-full max-w-6xl px-6 py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { title: "Lorem Ipsum Dolor", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit — sed do eiusmod tempor incididunt." },
-              { title: "Consectetur Adipiscing", text: "Ut labore et dolore magna aliqua, ut enim ad minim veniam quis nostrud exercitation." },
-              { title: "Sed Do Eiusmod", text: "Ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor." },
-              { title: "Incididunt Ut Labore", text: "In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." },
-            ].map((item, idx) => (
-              <div key={idx} className={`reveal-up reveal-delay-${idx + 1} flex flex-col gap-2`}>
-                <div className="flex items-start gap-3">
-                  <IconCheck />
-                  <p className="font-semibold text-sm leading-snug" style={{ color: TEXT }}>{item.title}</p>
-                </div>
-                <p className="text-xs leading-relaxed pl-7" style={{ color: TEXT_SECONDARY }}>{item.text}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-10 flex flex-col items-start md:items-center md:justify-center reveal-up reveal-delay-4">
-            <Button onClick={openQuiz}>Lorem Ipsum</Button>
-          </div>
-        </div>
-      </section>
-
       {/* OBJEKT DETAIL */}
-      <section className="mx-auto w-full max-w-6xl px-6 py-16">
+      <section id="vorteile" className="mx-auto w-full max-w-6xl px-6 py-16 scroll-mt-20">
         <div className="flex flex-col gap-12">
           {[
             {
