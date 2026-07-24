@@ -602,7 +602,7 @@ function AboutSectionTop() {
 function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
   return (
     <section className="w-full relative overflow-hidden" style={{ backgroundColor: "#FBFAF7" }}>
-      <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center" style={{ paddingTop: "120px", paddingBottom: "220px" }}>
+      <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center" style={{ paddingTop: "120px", paddingBottom: "160px" }}>
         <h2 className="reveal-up text-3xl md:text-5xl leading-tight mb-5" style={{ color: TEXT }}>
           Lorem Ipsum Dolor Sit Amet
         </h2>
@@ -614,17 +614,17 @@ function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
         </div>
       </div>
 
-      {/* Sonnenaufgang: Halbkreis, dessen Mittelpunkt genau auf dem unteren Sektionsrand liegt */}
+      {/* Sonnenuntergang: Halbkreis, weiter unten versenkt und dezenter */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2"
         style={{
           bottom: 0,
-          transform: "translate(-50%, 50%)",
+          transform: "translate(-50%, 82%)",
           width: "min(1100px, 160vw)",
           height: "min(1100px, 160vw)",
           borderRadius: "50%",
-          background: "radial-gradient(circle at 50% 50%, #F9D65C 0%, #F4C542 22%, #E8B23A 42%, rgba(232,178,58,0.35) 62%, rgba(232,178,58,0) 78%)",
+          background: "radial-gradient(circle at 50% 50%, rgba(249,214,92,0.55) 0%, rgba(244,197,66,0.42) 22%, rgba(232,178,58,0.28) 42%, rgba(232,178,58,0.12) 62%, rgba(232,178,58,0) 78%)",
         }}
       />
       {/* feine konzentrische Ringe, passend zum Marken-Horizont-Symbol */}
@@ -633,11 +633,11 @@ function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
         className="pointer-events-none absolute left-1/2"
         style={{
           bottom: 0,
-          transform: "translate(-50%, 50%)",
+          transform: "translate(-50%, 82%)",
           width: "min(760px, 110vw)",
           height: "min(760px, 110vw)",
           borderRadius: "50%",
-          border: "1px solid rgba(232,178,58,0.45)",
+          border: "1px solid rgba(232,178,58,0.22)",
         }}
       />
       <div
@@ -645,11 +645,11 @@ function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
         className="pointer-events-none absolute left-1/2"
         style={{
           bottom: 0,
-          transform: "translate(-50%, 50%)",
+          transform: "translate(-50%, 82%)",
           width: "min(940px, 135vw)",
           height: "min(940px, 135vw)",
           borderRadius: "50%",
-          border: "1px solid rgba(232,178,58,0.25)",
+          border: "1px solid rgba(232,178,58,0.14)",
         }}
       />
       {/* Horizontlinie exakt am unteren Sektionsrand */}
