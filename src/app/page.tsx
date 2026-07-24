@@ -614,20 +614,34 @@ function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
         </div>
       </div>
 
-      {/* Sonnenuntergang: Halbkreis, weiter unten versenkt und dezenter */}
+      {/* Sonnenuntergang: Halbkreis, weiter unten versenkt, mit weichem mehrstufigem Verlauf */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2"
         style={{
           bottom: 0,
           transform: "translate(-50%, 82%)",
-          width: "min(1100px, 160vw)",
-          height: "min(1100px, 160vw)",
+          width: "min(1300px, 190vw)",
+          height: "min(1300px, 190vw)",
           borderRadius: "50%",
-          background: "radial-gradient(circle at 50% 50%, rgba(249,214,92,0.55) 0%, rgba(244,197,66,0.42) 22%, rgba(232,178,58,0.28) 42%, rgba(232,178,58,0.12) 62%, rgba(232,178,58,0) 78%)",
+          background: "radial-gradient(circle at 50% 50%, rgba(250,222,120,0.65) 0%, rgba(249,214,92,0.52) 12%, rgba(246,203,75,0.40) 24%, rgba(244,197,66,0.30) 36%, rgba(238,188,62,0.20) 48%, rgba(232,178,58,0.12) 60%, rgba(232,178,58,0.06) 72%, rgba(232,178,58,0.02) 85%, rgba(232,178,58,0) 100%)",
+          filter: "blur(2px)",
         }}
       />
-      {/* feine konzentrische Ringe, passend zum Marken-Horizont-Symbol */}
+      {/* zusätzlicher weicher Schein, sorgt für sanfteren Übergang in den Hintergrund */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2"
+        style={{
+          bottom: 0,
+          transform: "translate(-50%, 55%)",
+          width: "min(1700px, 220vw)",
+          height: "min(900px, 120vw)",
+          borderRadius: "50%",
+          background: "radial-gradient(ellipse at 50% 50%, rgba(249,214,92,0.16) 0%, rgba(249,214,92,0.08) 40%, rgba(249,214,92,0) 75%)",
+        }}
+      />
+      {/* feine konzentrische Ringe, weich ausgeblendet */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2"
@@ -637,7 +651,7 @@ function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
           width: "min(760px, 110vw)",
           height: "min(760px, 110vw)",
           borderRadius: "50%",
-          border: "1px solid rgba(232,178,58,0.22)",
+          boxShadow: "0 0 0 1px rgba(232,178,58,0.16), 0 0 40px 6px rgba(232,178,58,0.06)",
         }}
       />
       <div
@@ -649,7 +663,7 @@ function ClosingSunriseSection({ openQuiz }: { openQuiz: () => void }) {
           width: "min(940px, 135vw)",
           height: "min(940px, 135vw)",
           borderRadius: "50%",
-          border: "1px solid rgba(232,178,58,0.14)",
+          boxShadow: "0 0 0 1px rgba(232,178,58,0.10), 0 0 60px 10px rgba(232,178,58,0.04)",
         }}
       />
       {/* Horizontlinie exakt am unteren Sektionsrand */}
