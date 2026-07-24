@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 120">
+  <!-- Brand mark: thin horizon line opening into a subtle half-circle (sunrise over the lake) -->
+  <g>
+    <line x1="0" y1="60" x2="38" y2="60" stroke="#547587" stroke-width="2"/>
+    <path d="M 38 60 A 22 22 0 0 1 82 60" fill="none" stroke="#547587" stroke-width="2"/>
+    <line x1="82" y1="60" x2="120" y2="60" stroke="#547587" stroke-width="2"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="140" y="72" font-family="Manrope, Arial, sans-serif" font-size="46" font-weight="300" letter-spacing="4" fill="#2D3134">SEERESIDENZ</text>
+</svg>
