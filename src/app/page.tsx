@@ -270,7 +270,7 @@ function BentoTile({ src, alt, label }: { src: string; alt: string; label: strin
 function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
   const { highlight, small } = IMPRESSIONEN_BENTO;
   return (
-    <section id="impressionen" className="reveal-right w-full scroll-mt-20 overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
+    <section id="impressionen" className="reveal-right w-full scroll-mt-20 overflow-hidden pb-3" style={{ backgroundColor: SECTION_BG }}>
       <div className="mx-auto w-full max-w-6xl px-6 pt-16">
         <div className="reveal-up flex flex-col items-center text-center mb-10">
           <h2 className="text-3xl md:text-4xl" style={{ color: TEXT }}>Lorem Ipsum</h2>
@@ -301,7 +301,6 @@ function ImpressSection({ openQuiz }: { openQuiz: () => void }) {
           </div>
         ))}
       </div>
-      <div style={{ height: "12px" }} />
     </section>
   );
 }

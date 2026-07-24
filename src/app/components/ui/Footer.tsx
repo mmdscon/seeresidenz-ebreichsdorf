@@ -50,11 +50,11 @@ export default function Footer() {
           <div className="md:col-span-1 flex flex-col gap-5">
             <div>
               <Image
-                src="/logo.svg"
-                alt="Seeresidenz"
-                width={160}
-                height={31}
-                className="h-7 w-auto"
+                src="/logo.png"
+                alt="Seeresidenz Ebreichsdorf"
+                width={286}
+                height={100}
+                className="h-12 w-auto"
                 style={{ filter: "brightness(0) invert(1)" }}
               />
             </div>
