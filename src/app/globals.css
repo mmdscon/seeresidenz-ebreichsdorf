@@ -124,6 +124,31 @@ body {
 .reveal-delay-3.visible { animation-delay: 0.23s; }
 .reveal-delay-4.visible { animation-delay: 0.31s; }
 
+/* ─── Button shine sweep + animated glow ring ─── */
+.btn-fx {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background 0.45s ease, border-color 0.45s ease, color 0.3s ease, box-shadow 0.45s ease;
+}
+.btn-fx::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.55) 50%, transparent 80%);
+  transform: translateX(-130%) skewX(-15deg);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-fx:hover::before {
+  transform: translateX(130%) skewX(-15deg);
+}
+.btn-fx > * {
+  position: relative;
+  z-index: 2;
+}
+
 @keyframes loaderPulse {
   0%, 80%, 100% { opacity: 0.15; transform: scale(0.8); }
   40%           { opacity: 1;    transform: scale(1.1); }

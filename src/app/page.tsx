@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import Header from "@/components/ui/Header";
 import Quiz from "@/components/quiz";
 import { IMPRESSION_IMAGES } from "@/lib/images";
+import { cn } from "@/lib/utils";
 
 const PRIMARY = "#547587";
 const TEXT = "#2D3134";
@@ -26,21 +27,20 @@ function ArrowIcon({ className = "" }: { className?: string }) {
 // default styling doesn't fit, e.g. on photo backgrounds).
 function PillCTA({ onClick, children, tone = "solid" }: { onClick: () => void; children: React.ReactNode; tone?: "solid" | "light" }) {
   const solid = tone === "solid";
-  const GOLD = "#D4AF37";
   return (
     <button
       onClick={onClick}
-      className="group/cta inline-flex items-center justify-center gap-2 h-11 px-6 text-sm font-semibold rounded-full transition-colors duration-300 active:scale-[0.98]"
-      style={{
-        background: solid ? PRIMARY : "white",
-        color: solid ? "white" : PRIMARY,
-        border: `1px solid ${solid ? PRIMARY : "white"}`,
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = GOLD; e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = "white"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = solid ? PRIMARY : "white"; e.currentTarget.style.borderColor = solid ? PRIMARY : "white"; e.currentTarget.style.color = solid ? "white" : PRIMARY; }}
+      className={cn(
+        "group/cta btn-fx inline-flex items-center justify-center gap-2 h-11 px-6 text-sm font-semibold rounded-full border transition-all duration-[450ms] ease-out active:scale-[0.98]",
+        solid
+          ? "text-white border-transparent bg-[linear-gradient(135deg,#4C6C7D_0%,#547587_45%,#65879B_100%)] hover:bg-[linear-gradient(135deg,#D4AF37_0%,#E4C158_50%,#D4AF37_100%)] hover:shadow-[0_0_0_4px_rgba(212,175,55,0.22)]"
+          : "text-[#547587] border-white bg-white hover:text-white hover:border-transparent hover:bg-[linear-gradient(135deg,#D4AF37_0%,#E4C158_50%,#D4AF37_100%)] hover:shadow-[0_0_0_4px_rgba(212,175,55,0.22)]"
+      )}
     >
-      {children}
-      <ArrowIcon className="transition-transform duration-300 group-hover/cta:translate-x-1" />
+      <span className="inline-flex items-center gap-2">
+        {children}
+        <ArrowIcon className="transition-transform duration-300 group-hover/cta:translate-x-1" />
+      </span>
     </button>
   );
 }
@@ -690,7 +690,6 @@ export default function Page() {
         <div className="hidden md:block relative w-full md:aspect-[16/10] lg:aspect-[16/8] overflow-hidden" style={{ backgroundColor: SECTION_BG }}>
           <Image src="/lake-aerial.webp" alt="Seeresidenz" fill className="object-cover" priority sizes="100vw" />
           <div className="absolute inset-x-0 top-0 pointer-events-none" style={{ height: "160px", background: "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 100%)" }} />
-          <div className="absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: "55%", background: "linear-gradient(180deg, transparent 0%, rgba(251,250,247,0.15) 40%, rgba(251,250,247,0.72) 100%)" }} />
 
           <div className="absolute inset-x-0 bottom-0 z-10 pb-10 lg:pb-14">
             <div className="mx-auto w-full max-w-6xl px-6 flex items-end justify-between gap-10">

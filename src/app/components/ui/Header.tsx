@@ -71,20 +71,35 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
               ))}
             </nav>
             <button onClick={onQuizOpen}
-              className="group/cta shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-full transition-colors duration-300"
+              className="group/cta btn-fx shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-full transition-all duration-[450ms]"
               style={{
                 background: scrolled ? PRIMARY : "rgba(255,255,255,0.14)",
                 backdropFilter: scrolled ? "none" : "blur(10px)",
                 color: "white",
                 border: scrolled ? `1px solid ${PRIMARY}` : "1px solid rgba(255,255,255,0.35)",
+                boxShadow: "0 0 0 0 rgba(212,175,55,0)",
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = "#D4AF37"; e.currentTarget.style.borderColor = "#D4AF37"; e.currentTarget.style.color = "white"; e.currentTarget.style.backdropFilter = "none"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = scrolled ? PRIMARY : "rgba(255,255,255,0.14)"; e.currentTarget.style.borderColor = scrolled ? PRIMARY : "rgba(255,255,255,0.35)"; e.currentTarget.style.color = "white"; e.currentTarget.style.backdropFilter = scrolled ? "none" : "blur(10px)"; }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "linear-gradient(135deg, #D4AF37 0%, #E4C158 50%, #D4AF37 100%)";
+                e.currentTarget.style.borderColor = "transparent";
+                e.currentTarget.style.color = "white";
+                e.currentTarget.style.backdropFilter = "none";
+                e.currentTarget.style.boxShadow = "0 0 0 4px rgba(212,175,55,0.22)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = scrolled ? PRIMARY : "rgba(255,255,255,0.14)";
+                e.currentTarget.style.borderColor = scrolled ? PRIMARY : "rgba(255,255,255,0.35)";
+                e.currentTarget.style.color = "white";
+                e.currentTarget.style.backdropFilter = scrolled ? "none" : "blur(10px)";
+                e.currentTarget.style.boxShadow = "0 0 0 0 rgba(212,175,55,0)";
+              }}
             >
-              Lorem Ipsum
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/cta:translate-x-1">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
+              <span className="inline-flex items-center gap-2">
+                Lorem Ipsum
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/cta:translate-x-1">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </span>
             </button>
           </div>
 
@@ -150,13 +165,14 @@ export default function Header({ onQuizOpen }: { onQuizOpen?: () => void }) {
         </nav>
         <div className="mt-auto px-6 py-6">
           <button onClick={() => { onQuizOpen?.(); setOpen(false); }}
-            className="group/cta w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold rounded-full transition-colors duration-300 hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-white"
-            style={{ background: PRIMARY, color: "white", border: `1px solid ${PRIMARY}` }}
+            className="group/cta btn-fx w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold rounded-full border border-[#547587] text-white transition-all duration-[450ms] bg-[linear-gradient(135deg,#4C6C7D_0%,#547587_45%,#65879B_100%)] hover:border-transparent hover:bg-[linear-gradient(135deg,#D4AF37_0%,#E4C158_50%,#D4AF37_100%)] hover:shadow-[0_0_0_4px_rgba(212,175,55,0.22)]"
           >
-            Lorem Ipsum
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/cta:translate-x-1">
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
+            <span className="inline-flex items-center gap-2">
+              Lorem Ipsum
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/cta:translate-x-1">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </span>
           </button>
         </div>
       </div>
